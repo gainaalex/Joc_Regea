@@ -9,6 +9,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.NavigableMap;
+import java.util.Objects;
 
 public class Player extends Entity{
     private Game game;
@@ -292,7 +293,28 @@ public class Player extends Entity{
 
     public void pickItem(int i) {
         if (i != -1) {
-            game.obj_list[i]=null;
+            String obj_name=game.obj_list[i].name;
+            switch (obj_name)
+            {
+                case "Door":
+                    game.sound.setFile(3);
+                    game.sound.play();
+                        try {
+                            game.obj_list[i].image = ImageIO.read(getClass().getResourceAsStream("/res/Objects/castledoors_open.png"));
+                            game.obj_list[i].name="Open_Door";
+                        }catch (IOException e)
+                        {
+                            e.printStackTrace();
+                        }
+                    break;
+                case "Boots":
+                {
+                    game.sound.setFile(1);
+                    game.sound.play();
+                    speed+=1;
+                    game.obj_list[i]=null;
+                }
+            }
         }
     }
 }

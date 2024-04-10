@@ -3,6 +3,7 @@ package Regea_The_Game_v1;
 import Entity.Player;
 import Graphics.*;
 import Graphics.Objects.Super_Obj;
+import Graphics.Sound.Sound;
 
 import javax.swing.*;
 import java.awt.*;
@@ -22,6 +23,9 @@ public class Game implements Runnable
     public Collision collision;
     public Super_Obj[] obj_list;
     public Obj_Placement obj_setter;
+
+    public Sound background_music;
+    public Sound sound;
     //private Tile tile;
 
     public Game(String title)
@@ -35,6 +39,12 @@ public class Game implements Runnable
         obj_list=new Super_Obj[3];
         obj_setter=new Obj_Placement(this);
         obj_setter.setObjects();
+
+        background_music=new Sound();
+        background_music.setFile(0);
+        background_music.play();
+        background_music.loop();
+        sound=new Sound();
 
         wnd.BuildGameWindow();
         wnd.GetCanvas().addKeyListener(keyboard_command);
@@ -180,6 +190,16 @@ public class Game implements Runnable
     public int Tile_Size()
     {
         return wnd.Tile_Size;
+    }
+
+    public void stopMusic()
+    {
+        background_music.stop();
+    }
+    public void PlaySoundEffect(int i)
+    {
+        sound.setFile(i);
+        sound.play();
     }
 }
 

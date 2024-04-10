@@ -1,5 +1,6 @@
 package Regea_The_Game_v1;
 
+import Graphics.Objects.Obj_Boots;
 import Graphics.Objects.Obj_Door;
 
 public class Obj_Placement {
@@ -13,6 +14,10 @@ public class Obj_Placement {
         game.obj_list[0]=new Obj_Door();
         game.obj_list[0].worldX=23*game.Tile_Size();
         game.obj_list[0].worldY=20*game.Tile_Size();
+
+        game.obj_list[1]=new Obj_Boots();
+        game.obj_list[1].worldX=23*game.Tile_Size();
+        game.obj_list[1].worldY=27*game.Tile_Size();
 
     }
 }

@@ -1,6 +1,7 @@
 package Graphics.Objects;
 
 import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 public class Obj_Door extends Super_Obj{
@@ -13,6 +14,5 @@ public class Obj_Door extends Super_Obj{
         {
             e.printStackTrace();
         }
-        collision=true;
     }
 }
