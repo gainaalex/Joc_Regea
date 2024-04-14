@@ -164,9 +164,6 @@ public class Game implements Runnable
 
         player1.Draw(g);
 
-        //g.setColor(Color.white);
-        //g.fillRect(player1.x,player1.y, wnd.Tile_Size, wnd.Tile_Size);
-
         bs.show();
         g.dispose();
     }

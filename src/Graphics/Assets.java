@@ -10,6 +10,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+import static Graphics.TileScaler.scaleImage;
+
 
 public class Assets
 {
@@ -22,7 +24,7 @@ public class Assets
     public Assets(Game game)
     {
         this.game=game;
-        tile=new Tile[15];
+        tile=new Tile[50];
         GetTiles();
         LoadMap("/Graphics/Maps/World_1.txt");
     }
@@ -56,33 +58,83 @@ public class Assets
             e.printStackTrace();
         }
     }
-    public void GetTiles()
+
+    public void setup(int index, String imagePath, boolean collision)
     {
         try{
-            tile[0]=new Tile();
-            //tile[0].collision=true;
-            tile[0].image= ImageIO.read(getClass().getResourceAsStream("/res/Tiles/Grass/grass_tile_0.png"));
-            tile[1]=new Tile();
-            tile[1].image= ImageIO.read(getClass().getResourceAsStream("/res/Tiles/Grass/grass_tile_1.png"));
-            tile[2]=new Tile();
-            tile[2].image= ImageIO.read(getClass().getResourceAsStream("/res/Tiles/Grass/grass_tile_2.png"));
-            tile[3]=new Tile();
-            tile[3].image= ImageIO.read(getClass().getResourceAsStream("/res/Tiles/Grass/grass_tile_3.png"));
-            tile[4]=new Tile();
-            tile[4].image= ImageIO.read(getClass().getResourceAsStream("/res/Tiles/Grass/grass_tile_4.png"));
-            tile[5]=new Tile();
-            tile[5].image= ImageIO.read(getClass().getResourceAsStream("/res/Tiles/Grass/grass_tile_5.png"));
-            tile[6]=new Tile();
-            tile[6].image= ImageIO.read(getClass().getResourceAsStream("/res/Tiles/Grass/grass_tile_6.png"));
-            tile[7]=new Tile();
-            tile[7].image= ImageIO.read(getClass().getResourceAsStream("/res/Tiles/Grass/grass_tile_7.png"));
-            //piatra
-            tile[8]=new Tile();
-            tile[8].image=ImageIO.read(getClass().getResourceAsStream("/res/Tiles/Stone/Ground&Stone/Stone/ground1.png"));
-            //copac
-            tile[9]=new Tile();
-            tile[9].image=ImageIO.read(getClass().getResourceAsStream("/res/Tiles/Tree/tree.png"));
-            tile[9].collision=true;
+            tile[index]=new Tile();
+            tile[index].image=ImageIO.read(getClass().getResourceAsStream(imagePath));
+            tile[index].image=TileScaler.scaleImage(tile[index].image, game.Tile_Size(), game.Tile_Size());
+            tile[index].collision=collision;
+        }catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    public void GetTiles()
+    {
+        /*//iarba
+        setup(0,"/res/Tiles/Grass/grass_tile_0.png",false);
+        setup(1,"/res/Tiles/Grass/grass_tile_1.png",false);
+        setup(2,"/res/Tiles/Grass/grass_tile_2.png",false);
+        setup(3,"/res/Tiles/Grass/grass_tile_3.png",false);
+        setup(4,"/res/Tiles/Grass/grass_tile_4.png",false);
+        setup(5,"/res/Tiles/Grass/grass_tile_5.png",false);
+        setup(6,"/res/Tiles/Grass/grass_tile_6.png",false);
+        setup(7,"/res/Tiles/Grass/grass_tile_7.png",false);
+        //piatra
+        setup(8,"/res/Tiles/Stone/Ground&Stone/Stone/ground1.png",false);
+        //copac
+        setup(9,"/res/Tiles/Tree/up_tree_final.png",true);*/
+
+        try{
+            tile[10]=new Tile();
+            tile[10].image=ImageIO.read(getClass().getResourceAsStream("/res/Tiles/Grass/grass_tile_0.png"));
+
+            tile[11]=new Tile();
+            tile[11].image=ImageIO.read(getClass().getResourceAsStream("/res/Tiles/Grass/grass_tile_1.png"));
+            tile[12]=new Tile();
+            tile[12].image=ImageIO.read(getClass().getResourceAsStream("/res/Tiles/Grass/grass_tile_2.png"));
+            tile[13]=new Tile();
+            tile[13].image=ImageIO.read(getClass().getResourceAsStream("/res/Tiles/Grass/grass_tile_3.png"));
+            tile[14]=new Tile();
+            tile[14].image=ImageIO.read(getClass().getResourceAsStream("/res/Tiles/Grass/grass_tile_4.png"));
+            tile[15]=new Tile();
+            tile[15].image=ImageIO.read(getClass().getResourceAsStream("/res/Tiles/Grass/grass_tile_5.png"));
+            tile[16]=new Tile();
+            tile[16].image=ImageIO.read(getClass().getResourceAsStream("/res/Tiles/Grass/grass_tile_6.png"));
+            tile[17]=new Tile();
+            tile[17].image=ImageIO.read(getClass().getResourceAsStream("/res/Tiles/Grass/grass_tile_7.png"));
+            tile[18]=new Tile();
+            tile[18].image=ImageIO.read(getClass().getResourceAsStream("/res/Tiles/Grass/grass_tile_8.png"));
+            //cobblestone
+            tile[19]=new Tile();
+            tile[19].image=ImageIO.read(getClass().getResourceAsStream("/res/Tiles/Stone/Ground&Stone/Stone/cobble.png"));
+            //tree
+            tile[20]=new Tile();
+            tile[20].image=ImageIO.read(getClass().getResourceAsStream("/res/Tiles/Tree/front_tree_final.png"));
+            tile[20].collision=true;
+
+            tile[21]=new Tile();
+            tile[21].image=ImageIO.read(getClass().getResourceAsStream("/res/Tiles/Tree/central_tree_final.png"));
+            tile[21].collision=true;
+
+            tile[22]=new Tile();
+            tile[22].image=ImageIO.read(getClass().getResourceAsStream("/res/Tiles/Tree/left_tree_final.png"));
+            tile[22].collision=true;
+
+            tile[23]=new Tile();
+            tile[23].image=ImageIO.read(getClass().getResourceAsStream("/res/Tiles/Tree/right_tree_final.png"));
+            tile[23].collision=true;
+
+            tile[30]=new Tile();
+            tile[30].image=ImageIO.read(getClass().getResourceAsStream("/res/Tiles/Stone/Ground&Stone/Stone/ground1.png"));
+            tile[30].collision=true;
+
+            tile[31]=new Tile();
+            tile[31].image=ImageIO.read(getClass().getResourceAsStream("/res/Tiles/Wood/wood_floor.png"));
+
         }catch (IOException e)
         {
             e.printStackTrace();
@@ -105,9 +157,10 @@ public class Assets
             if (WorldX + game.Tile_Size()>game.player1.WorldX-game.player1.screenX &&
                 WorldX- game.Tile_Size()<game.player1.WorldX+game.player1.screenX &&
                 WorldY+ game.Tile_Size()>game.player1.WorldY-game.player1.screenY &&
-                WorldY- game.Tile_Size()<game.player1.WorldY+game.player1.screenY )
+                WorldY- game.Tile_Size()<game.player1.WorldY+game.player1.screenY &&
+                tile[current_tile]!=null)
             {
-                g.drawImage(tile[current_tile].image,screenX,screenY,game.Tile_Size(),game.Tile_Size(),null);
+                g.drawImage(tile[current_tile].image,screenX,screenY,game.Tile_Size(), game.Tile_Size(), null);
             }
             WorldCol++;
             if (WorldCol== game.wnd.maxWorldCol)
