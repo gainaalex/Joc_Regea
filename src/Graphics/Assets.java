@@ -64,7 +64,8 @@ public class Assets
         try{
             tile[index]=new Tile();
             tile[index].image=ImageIO.read(getClass().getResourceAsStream(imagePath));
-            tile[index].image=TileScaler.scaleImage(tile[index].image, game.Tile_Size(), game.Tile_Size());
+            if(tile[index].image.getWidth()!= game.Tile_Size() && tile[index].image.getHeight()!= game.Tile_Size())
+                    tile[index].image=TileScaler.scaleImage(tile[index].image, game.Tile_Size(), game.Tile_Size());
             tile[index].collision=collision;
         }catch (IOException e)
         {
@@ -74,24 +75,30 @@ public class Assets
 
     public void GetTiles()
     {
-        /*//iarba
-        setup(0,"/res/Tiles/Grass/grass_tile_0.png",false);
-        setup(1,"/res/Tiles/Grass/grass_tile_1.png",false);
-        setup(2,"/res/Tiles/Grass/grass_tile_2.png",false);
-        setup(3,"/res/Tiles/Grass/grass_tile_3.png",false);
-        setup(4,"/res/Tiles/Grass/grass_tile_4.png",false);
-        setup(5,"/res/Tiles/Grass/grass_tile_5.png",false);
-        setup(6,"/res/Tiles/Grass/grass_tile_6.png",false);
-        setup(7,"/res/Tiles/Grass/grass_tile_7.png",false);
-        //piatra
-        setup(8,"/res/Tiles/Stone/Ground&Stone/Stone/ground1.png",false);
-        //copac
-        setup(9,"/res/Tiles/Tree/up_tree_final.png",true);*/
+        // grass
+        setup(10,"/res/Tiles/Grass/grass_tile_0.png",false);
+        setup(11,"/res/Tiles/Grass/grass_tile_1.png",false);
+        setup(12,"/res/Tiles/Grass/grass_tile_2.png",false);
+        setup(13,"/res/Tiles/Grass/grass_tile_3.png",false);
+        setup(14,"/res/Tiles/Grass/grass_tile_4.png",false);
+        setup(15,"/res/Tiles/Grass/grass_tile_5.png",false);
+        setup(16,"/res/Tiles/Grass/grass_tile_6.png",false);
+        setup(17,"/res/Tiles/Grass/grass_tile_7.png",false);
+        setup(18,"/res/Tiles/Grass/grass_tile_8.png",false);
+        //cobblestone
+        setup(19,"/res/Tiles/Stone/Ground&Stone/Stone/cobble.png",false);
+        //tree
+        setup(20,"/res/Tiles/Tree/front_tree_final.png",true);
+        setup(21,"/res/Tiles/Tree/central_tree_final.png",true);
+        setup(22,"/res/Tiles/Tree/left_tree_final.png",true);
+        setup(23,"/res/Tiles/Tree/right_tree_final.png",true);
 
-        try{
+        setup(30,"/res/Tiles/Stone/Ground&Stone/Stone/ground1.png",true);
+        setup(31,"/res/Tiles/Wood/wood_floor.png",false);
+
+        /*try{
             tile[10]=new Tile();
             tile[10].image=ImageIO.read(getClass().getResourceAsStream("/res/Tiles/Grass/grass_tile_0.png"));
-
             tile[11]=new Tile();
             tile[11].image=ImageIO.read(getClass().getResourceAsStream("/res/Tiles/Grass/grass_tile_1.png"));
             tile[12]=new Tile();
@@ -139,7 +146,7 @@ public class Assets
         {
             e.printStackTrace();
         }
-
+*/
     }
     public void Draw(Graphics g)
     {
@@ -160,7 +167,7 @@ public class Assets
                 WorldY- game.Tile_Size()<game.player1.WorldY+game.player1.screenY &&
                 tile[current_tile]!=null)
             {
-                g.drawImage(tile[current_tile].image,screenX,screenY,game.Tile_Size(), game.Tile_Size(), null);
+                g.drawImage(tile[current_tile].image,screenX,screenY, null);
             }
             WorldCol++;
             if (WorldCol== game.wnd.maxWorldCol)

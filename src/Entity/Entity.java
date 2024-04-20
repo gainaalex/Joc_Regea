@@ -9,6 +9,8 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public class Entity {
+
+    Game game;
     //pozitia globala
     public int WorldX,WorldY;
     public int speed;
@@ -19,8 +21,12 @@ public class Entity {
     public int sprite_counter=0;
     public int spriteNum=0;
     public Rectangle solidArea;
-    //coliziune cu tile s
+    //coliziune cu tiles
     public boolean isCollision=false;
 
     public int solidArea_defaultX,solidArea_defaultY;
+    public Entity(Game g)
+    {
+        this.game=g;
+    }
 }

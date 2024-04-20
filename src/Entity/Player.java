@@ -2,6 +2,7 @@ package Entity;
 
 import Regea_The_Game_v1.CommandKeys;
 import Regea_The_Game_v1.Game;
+import Graphics.*;
 import res.Animation;
 
 import javax.imageio.ImageIO;
@@ -12,14 +13,13 @@ import java.util.NavigableMap;
 import java.util.Objects;
 
 public class Player extends Entity{
-    private Game game;
     private CommandKeys keyboard_command;
 
     public final int screenX;
     public final int screenY;
     public Player(Game g, CommandKeys Ck)
     {
-        game=g;
+        super(g);
         solidArea=new Rectangle(16,32,12,10);
         keyboard_command=Ck;
         screenX=(game.GetWndWidth()/2)-(game.wnd.Tile_Size/2);
@@ -40,14 +40,67 @@ public class Player extends Entity{
         direction="down";
 
     }
-
+    public BufferedImage setup(String ImagePath)
+    {
+        BufferedImage image =null;
+        try{
+            image=ImageIO.read(getClass().getResourceAsStream(ImagePath));
+            if (image.getWidth()!=game.Tile_Size() && image.getHeight()!=game.Tile_Size())
+                image= TileScaler.scaleImage(image,game.Tile_Size(), game.Tile_Size());
+        }catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+        return image;
+    }
     public void getPlayerImage()
     {
         up=new BufferedImage[9];
         down=new BufferedImage[9];
         left=new BufferedImage[9];
         right=new BufferedImage[9];
-        try{
+        up[0] = setup("/res/Regea_Sprites/walk_up/image_8-0.png");
+        up[1] = setup("/res/Regea_Sprites/walk_up/image_8-1.png");
+        up[2] = setup("/res/Regea_Sprites/walk_up/image_8-2.png");
+        up[3] = setup("/res/Regea_Sprites/walk_up/image_8-3.png");
+        up[4] = setup("/res/Regea_Sprites/walk_up/image_8-4.png");
+        up[5] = setup("/res/Regea_Sprites/walk_up/image_8-5.png");
+        up[6] = setup("/res/Regea_Sprites/walk_up/image_8-6.png");
+        up[7] = setup("/res/Regea_Sprites/walk_up/image_8-7.png");
+        up[8] = setup("/res/Regea_Sprites/walk_up/image_8-8.png");
+
+        down[0] = setup("/res/Regea_Sprites/walk_down/image_10-0.png");
+        down[1] = setup("/res/Regea_Sprites/walk_down/image_10-1.png");
+        down[2] = setup("/res/Regea_Sprites/walk_down/image_10-2.png");
+        down[3] = setup("/res/Regea_Sprites/walk_down/image_10-3.png");
+        down[4] = setup("/res/Regea_Sprites/walk_down/image_10-4.png");
+        down[5] = setup("/res/Regea_Sprites/walk_down/image_10-5.png");
+        down[6] = setup("/res/Regea_Sprites/walk_down/image_10-6.png");
+        down[7] = setup("/res/Regea_Sprites/walk_down/image_10-7.png");
+        down[8] = setup("/res/Regea_Sprites/walk_down/image_10-8.png");
+
+
+        left[0] = setup("/res/Regea_Sprites/walk_left/image_9-0.png");
+        left[1] = setup("/res/Regea_Sprites/walk_left/image_9-1.png");
+        left[2] = setup("/res/Regea_Sprites/walk_left/image_9-2.png");
+        left[3] = setup("/res/Regea_Sprites/walk_left/image_9-3.png");
+        left[4] = setup("/res/Regea_Sprites/walk_left/image_9-4.png");
+        left[5] = setup("/res/Regea_Sprites/walk_left/image_9-5.png");
+        left[6] = setup("/res/Regea_Sprites/walk_left/image_9-6.png");
+        left[7] = setup("/res/Regea_Sprites/walk_left/image_9-7.png");
+        left[8] = setup("/res/Regea_Sprites/walk_left/image_9-8.png");
+
+        right[0] = setup("/res/Regea_Sprites/walk_right/image_11-0.png");
+        right[1] = setup("/res/Regea_Sprites/walk_right/image_11-1.png");
+        right[2] = setup("/res/Regea_Sprites/walk_right/image_11-2.png");
+        right[3] = setup("/res/Regea_Sprites/walk_right/image_11-3.png");
+        right[4] = setup("/res/Regea_Sprites/walk_right/image_11-4.png");
+        right[5] = setup("/res/Regea_Sprites/walk_right/image_11-5.png");
+        right[6] = setup("/res/Regea_Sprites/walk_right/image_11-6.png");
+        right[7] = setup("/res/Regea_Sprites/walk_right/image_11-7.png");
+        right[8] = setup("/res/Regea_Sprites/walk_right/image_11-8.png");
+
+        /*try{
             up[0] = ImageIO.read(getClass().getResourceAsStream("/res/Regea_Sprites/walk_up/image_8-0.png"));
             up[1] = ImageIO.read(getClass().getResourceAsStream("/res/Regea_Sprites/walk_up/image_8-1.png"));
             up[2] = ImageIO.read(getClass().getResourceAsStream("/res/Regea_Sprites/walk_up/image_8-2.png"));
@@ -93,7 +146,7 @@ public class Player extends Entity{
         {
             e.printStackTrace();
         }
-
+*/
     }
 
     public void Update()
@@ -286,7 +339,7 @@ public class Player extends Entity{
                 }
                 break;
         }
-        g.drawImage(img,screenX,screenY,game.Tile_Size(),game.Tile_Size(),null);
+        g.drawImage(img,screenX,screenY,null);
         /*g.setColor(Color.white);
         g.fillRect(x,y, game.Tile_Size(), game.Tile_Size());*/
     }
@@ -301,6 +354,7 @@ public class Player extends Entity{
                     game.sound.play();
                         try {
                             game.obj_list[i].image = ImageIO.read(getClass().getResourceAsStream("/res/Objects/castledoors_open.png"));
+                            game.obj_list[i].image=TileScaler.scaleImage(game.obj_list[0].image,game.Tile_Size(),game.Tile_Size());
                             game.obj_list[i].name="Open_Door";
                         }catch (IOException e)
                         {

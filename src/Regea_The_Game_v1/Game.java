@@ -17,6 +17,12 @@ public class Game implements Runnable
     private BufferStrategy bs;
 
     private Graphics g;
+
+    public int gameStatus;
+    public final int playStatus=1;
+    public final int pauseStatus=2;
+
+
     CommandKeys keyboard_command= new CommandKeys();
     Assets assets;
     public Player player1;
@@ -31,6 +37,8 @@ public class Game implements Runnable
     public Game(String title)
     {
         wnd = new GameWindow(title);
+
+        gameStatus=playStatus;
 
         player1=new Player(this,keyboard_command);
 
@@ -133,7 +141,8 @@ public class Game implements Runnable
 
     private void Update()
     {
-        player1.Update();
+        if (gameStatus==playStatus)
+            player1.Update();
     }
 
     private void Draw() {
