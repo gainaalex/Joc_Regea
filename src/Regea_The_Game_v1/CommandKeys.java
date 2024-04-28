@@ -4,8 +4,13 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class CommandKeys implements KeyListener {
-
+    Game game;
     public boolean up_command=false,down_command=false,left_command=false,right_command=false;
+
+    public CommandKeys(Game g)
+    {
+        this.game=g;
+    }
     @Override
     public void keyTyped(KeyEvent e) {
 
@@ -29,6 +34,13 @@ public class CommandKeys implements KeyListener {
         if (code == KeyEvent.VK_D)
         {
             right_command=true;
+        }
+        if (code == KeyEvent.VK_ESCAPE || code == KeyEvent.VK_P)
+        {
+            if(game.gameStatus== game.playStatus)
+                game.gameStatus= game.pauseStatus;
+            else
+                game.gameStatus=game.playStatus;
         }
     }
 

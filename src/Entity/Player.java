@@ -40,19 +40,7 @@ public class Player extends Entity{
         direction="down";
 
     }
-    public BufferedImage setup(String ImagePath)
-    {
-        BufferedImage image =null;
-        try{
-            image=ImageIO.read(getClass().getResourceAsStream(ImagePath));
-            if (image.getWidth()!=game.Tile_Size() && image.getHeight()!=game.Tile_Size())
-                image= TileScaler.scaleImage(image,game.Tile_Size(), game.Tile_Size());
-        }catch (IOException e)
-        {
-            e.printStackTrace();
-        }
-        return image;
-    }
+
     public void getPlayerImage()
     {
         up=new BufferedImage[9];
@@ -99,54 +87,6 @@ public class Player extends Entity{
         right[6] = setup("/res/Regea_Sprites/walk_right/image_11-6.png");
         right[7] = setup("/res/Regea_Sprites/walk_right/image_11-7.png");
         right[8] = setup("/res/Regea_Sprites/walk_right/image_11-8.png");
-
-        /*try{
-            up[0] = ImageIO.read(getClass().getResourceAsStream("/res/Regea_Sprites/walk_up/image_8-0.png"));
-            up[1] = ImageIO.read(getClass().getResourceAsStream("/res/Regea_Sprites/walk_up/image_8-1.png"));
-            up[2] = ImageIO.read(getClass().getResourceAsStream("/res/Regea_Sprites/walk_up/image_8-2.png"));
-            up[3] = ImageIO.read(getClass().getResourceAsStream("/res/Regea_Sprites/walk_up/image_8-3.png"));
-            up[4] = ImageIO.read(getClass().getResourceAsStream("/res/Regea_Sprites/walk_up/image_8-4.png"));
-            up[5] = ImageIO.read(getClass().getResourceAsStream("/res/Regea_Sprites/walk_up/image_8-5.png"));
-            up[6] = ImageIO.read(getClass().getResourceAsStream("/res/Regea_Sprites/walk_up/image_8-6.png"));
-            up[7] = ImageIO.read(getClass().getResourceAsStream("/res/Regea_Sprites/walk_up/image_8-7.png"));
-            up[8] = ImageIO.read(getClass().getResourceAsStream("/res/Regea_Sprites/walk_up/image_8-8.png"));
-
-            down[0] = ImageIO.read(getClass().getResourceAsStream("/res/Regea_Sprites/walk_down/image_10-0.png"));
-            down[1] = ImageIO.read(getClass().getResourceAsStream("/res/Regea_Sprites/walk_down/image_10-1.png"));
-            down[2] = ImageIO.read(getClass().getResourceAsStream("/res/Regea_Sprites/walk_down/image_10-2.png"));
-            down[3] = ImageIO.read(getClass().getResourceAsStream("/res/Regea_Sprites/walk_down/image_10-3.png"));
-            down[4] = ImageIO.read(getClass().getResourceAsStream("/res/Regea_Sprites/walk_down/image_10-4.png"));
-            down[5] = ImageIO.read(getClass().getResourceAsStream("/res/Regea_Sprites/walk_down/image_10-5.png"));
-            down[6] = ImageIO.read(getClass().getResourceAsStream("/res/Regea_Sprites/walk_down/image_10-6.png"));
-            down[7] = ImageIO.read(getClass().getResourceAsStream("/res/Regea_Sprites/walk_down/image_10-7.png"));
-            down[8] = ImageIO.read(getClass().getResourceAsStream("/res/Regea_Sprites/walk_down/image_10-8.png"));
-
-
-            left[0] = ImageIO.read(getClass().getResourceAsStream("/res/Regea_Sprites/walk_left/image_9-0.png"));
-            left[1] = ImageIO.read(getClass().getResourceAsStream("/res/Regea_Sprites/walk_left/image_9-1.png"));
-            left[2] = ImageIO.read(getClass().getResourceAsStream("/res/Regea_Sprites/walk_left/image_9-2.png"));
-            left[3] = ImageIO.read(getClass().getResourceAsStream("/res/Regea_Sprites/walk_left/image_9-3.png"));
-            left[4] = ImageIO.read(getClass().getResourceAsStream("/res/Regea_Sprites/walk_left/image_9-4.png"));
-            left[5] = ImageIO.read(getClass().getResourceAsStream("/res/Regea_Sprites/walk_left/image_9-5.png"));
-            left[6] = ImageIO.read(getClass().getResourceAsStream("/res/Regea_Sprites/walk_left/image_9-6.png"));
-            left[7] = ImageIO.read(getClass().getResourceAsStream("/res/Regea_Sprites/walk_left/image_9-7.png"));
-            left[8] = ImageIO.read(getClass().getResourceAsStream("/res/Regea_Sprites/walk_left/image_9-8.png"));
-
-            right[0] = ImageIO.read(getClass().getResourceAsStream("/res/Regea_Sprites/walk_right/image_11-0.png"));
-            right[1] = ImageIO.read(getClass().getResourceAsStream("/res/Regea_Sprites/walk_right/image_11-1.png"));
-            right[2] = ImageIO.read(getClass().getResourceAsStream("/res/Regea_Sprites/walk_right/image_11-2.png"));
-            right[3] = ImageIO.read(getClass().getResourceAsStream("/res/Regea_Sprites/walk_right/image_11-3.png"));
-            right[4] = ImageIO.read(getClass().getResourceAsStream("/res/Regea_Sprites/walk_right/image_11-4.png"));
-            right[5] = ImageIO.read(getClass().getResourceAsStream("/res/Regea_Sprites/walk_right/image_11-5.png"));
-            right[6] = ImageIO.read(getClass().getResourceAsStream("/res/Regea_Sprites/walk_right/image_11-6.png"));
-            right[7] = ImageIO.read(getClass().getResourceAsStream("/res/Regea_Sprites/walk_right/image_11-7.png"));
-            right[8] = ImageIO.read(getClass().getResourceAsStream("/res/Regea_Sprites/walk_right/image_11-8.png"));
-
-        }catch (IOException e)
-        {
-            e.printStackTrace();
-        }
-*/
     }
 
     public void Update()

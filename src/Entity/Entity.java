@@ -2,11 +2,14 @@ package Entity;
 
 import Regea_The_Game_v1.CommandKeys;
 import Regea_The_Game_v1.Game;
+import Graphics.TileScaler;
 import res.Animation;
 
 
+import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 public class Entity {
 
@@ -28,5 +31,28 @@ public class Entity {
     public Entity(Game g)
     {
         this.game=g;
+        solidArea=new Rectangle();
     }
+    public BufferedImage setup(String ImagePath)
+    {
+        BufferedImage image =null;
+        try{
+            image= ImageIO.read(getClass().getResourceAsStream(ImagePath));
+            if (image.getWidth()!=game.Tile_Size() && image.getHeight()!=game.Tile_Size())
+                image= TileScaler.scaleImage(image,game.Tile_Size(), game.Tile_Size());
+        }catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+        return image;
+    }
+
+    public void draw(Graphics g) {
+
+    }
+    public void Update()
+    {
+
+    }
+
 }

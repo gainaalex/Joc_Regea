@@ -1,5 +1,6 @@
 package Regea_The_Game_v1;
 
+import Entity.Entity;
 import Entity.Player;
 import Graphics.*;
 import Graphics.Objects.Super_Obj;
@@ -19,16 +20,21 @@ public class Game implements Runnable
     private Graphics g;
 
     public int gameStatus;
+
+    public UI_game_pause pause_ui;
     public final int playStatus=1;
     public final int pauseStatus=2;
 
 
-    CommandKeys keyboard_command= new CommandKeys();
+    CommandKeys keyboard_command= new CommandKeys(this);
     Assets assets;
     public Player player1;
     public Collision collision;
     public Super_Obj[] obj_list;
     public Obj_Placement obj_setter;
+
+    public Entity[] npc_list;
+    public NPC_Placement npcPlacement;
 
     public Sound background_music;
     public Sound sound;
@@ -39,8 +45,12 @@ public class Game implements Runnable
         wnd = new GameWindow(title);
 
         gameStatus=playStatus;
+        pause_ui=new UI_game_pause(this);
 
         player1=new Player(this,keyboard_command);
+        npc_list=new Entity[10];
+        npcPlacement=new NPC_Placement(this);
+        npcPlacement.setNPCs();
 
         collision=new Collision(this);
 
@@ -143,6 +153,11 @@ public class Game implements Runnable
     {
         if (gameStatus==playStatus)
             player1.Update();
+        for (int i=0;i<10;i++)
+        {
+            if(npc_list[i]!=null)
+                npc_list[i].Update();
+        }
     }
 
     private void Draw() {
@@ -170,9 +185,13 @@ public class Game implements Runnable
             if(obj_list[i]!=null)
                 obj_list[i].Draw(g,this);
         }
-
+        for (int i=0;i<npc_list.length;i++)
+        {
+            if(npc_list[i]!=null)
+                npc_list[i].draw(g);
+        }
         player1.Draw(g);
-
+        pause_ui.draw(g);
         bs.show();
         g.dispose();
     }
