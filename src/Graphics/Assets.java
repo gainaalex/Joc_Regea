@@ -24,9 +24,9 @@ public class Assets
     public Assets(Game game)
     {
         this.game=game;
-        tile=new Tile[50];
+        tile=new Tile[101];
         GetTiles();
-        LoadMap("/Graphics/Maps/World_1.txt");
+        LoadMap("/Graphics/Maps/World_Final_v2.txt");
     }
     public void LoadMap(String path)
     {
@@ -92,9 +92,28 @@ public class Assets
         setup(21,"/res/Tiles/Tree/central_tree_final.png",true);
         setup(22,"/res/Tiles/Tree/left_tree_final.png",true);
         setup(23,"/res/Tiles/Tree/right_tree_final.png",true);
+        setup(24,"/res/Tiles/Tree/single_tree.png",true);
 
         setup(30,"/res/Tiles/Stone/Ground&Stone/Stone/ground1.png",true);
         setup(31,"/res/Tiles/Wood/wood_floor.png",false);
+
+        // river
+        setup(40,"/res/Tiles/River/river_lavale.png",true);
+        setup(41,"/res/Tiles/River/up.png",true);
+        setup(42,"/res/Tiles/River/right.png",true);
+        setup(43,"/res/Tiles/River/down.png",true);
+        setup(44,"/res/Tiles/River/left.png",true);
+        setup(45,"/res/Tiles/River/river_up_left.png",true);
+        setup(46,"/res/Tiles/River/river_up_right.png",true);
+        setup(47,"/res/Tiles/River/river_down_left.png",true);
+        setup(48,"/res/Tiles/River/river_down_right.png",true);
+
+        //wall
+        setup(50,"/res/Castle/wall/wall_0.png",true);
+        setup(51,"/res/Castle/wall/wall_1.png",true);
+        setup(52,"/res/Castle/wall/wall_2.png",true);
+        setup(53,"/res/Castle/wall/wall_3.png",true);
+
 
         /*try{
             tile[10]=new Tile();

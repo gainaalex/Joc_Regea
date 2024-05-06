@@ -34,8 +34,8 @@ public class Player extends Entity{
 
     public void set_position()
     {
-        WorldX=game.Tile_Size()*25;
-        WorldY=game.Tile_Size()*25;
+        WorldX=game.Tile_Size()*1;
+        WorldY=game.Tile_Size()*1;
         speed=3;
         direction="down";
 
@@ -117,7 +117,7 @@ public class Player extends Entity{
 
             // verific daca are coliziune cu tile ul
             isCollision=false;
-            game.collision.checkTile(this);
+            //game.collision.checkTile(this);
 
             int object_index=game.collision.checkObj(this,true);
             pickItem(object_index);
@@ -305,7 +305,7 @@ public class Player extends Entity{
                 {
                     game.sound.setFile(1);
                     game.sound.play();
-                    speed+=1;
+                    speed+=10;
                     game.obj_list[i]=null;
                 }
             }

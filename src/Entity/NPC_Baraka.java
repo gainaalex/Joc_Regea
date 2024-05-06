@@ -1,6 +1,7 @@
 package Entity;
 
 import Regea_The_Game_v1.Game;
+import Graphics.TileScaler;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -23,15 +24,17 @@ public class NPC_Baraka extends Entity {
     public void getNPCImage()
     {
         down=new BufferedImage[2];
-        try {
+        /*try {
             down[0]=ImageIO.read(getClass().getResourceAsStream("/res/Baraka_Sprites/stay_1.png"));
             down[1]=ImageIO.read(getClass().getResourceAsStream("/res/Baraka_Sprites/stay_2.png"));
         }catch (IOException e)
         {
             e.printStackTrace();
-        }
-        //down[0] = setup("/res/Baraka_Sprites/stay_1.png");
-        //down[1] = setup("/res/Baraka_Sprites/stay_2.png");
+        }*/
+        down[0] = setup("/res/Baraka_Sprites/stay_1.png");
+        down[0]= TileScaler.scaleImage(down[0],60,60);
+        down[1] = setup("/res/Baraka_Sprites/stay_2.png");
+        down[1]= TileScaler.scaleImage(down[1],60,60);
 
     }
     public void Update() {

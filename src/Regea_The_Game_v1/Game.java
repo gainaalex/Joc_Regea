@@ -22,6 +22,8 @@ public class Game implements Runnable
     public int gameStatus;
 
     public UI_game_pause pause_ui;
+
+    public final int titlescreen=0;
     public final int playStatus=1;
     public final int pauseStatus=2;
 
@@ -62,6 +64,7 @@ public class Game implements Runnable
         background_music.setFile(0);
         background_music.play();
         background_music.loop();
+        background_music.modifyVolume(50);
         sound=new Sound();
 
         wnd.BuildGameWindow();
@@ -182,7 +185,7 @@ public class Game implements Runnable
 
         for (int i=0;i< obj_list.length;i++)
         {
-            if(obj_list[i]!=null)
+            if(obj_list[i]!=null && obj_list[i].priority_over_player==false)
                 obj_list[i].Draw(g,this);
         }
         for (int i=0;i<npc_list.length;i++)
@@ -191,6 +194,11 @@ public class Game implements Runnable
                 npc_list[i].draw(g);
         }
         player1.Draw(g);
+        for (int i=0;i< obj_list.length;i++)
+        {
+            if(obj_list[i]!=null && obj_list[i].priority_over_player==true)
+                obj_list[i].Draw(g,this);
+        }
         pause_ui.draw(g);
         bs.show();
         g.dispose();

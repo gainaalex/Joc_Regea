@@ -3,10 +3,13 @@ package Graphics.Sound;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+import javax.sound.sampled.FloatControl;
 import java.net.URL;
 
 public class Sound {
     Clip clip;
+    private FloatControl volumeControl;
+    private float actualVolume100;
     URL[] soundURL=new URL[6];
     public Sound()
     {
@@ -17,6 +20,7 @@ public class Sound {
         soundURL[2]=getClass().getResource("/res/Sounds+Music/power_up_down/power_down.wav");
         //open door
         soundURL[3]=getClass().getResource("/res/Sounds+Music/doors/open_door.wav");
+
     }
 
     public void setFile(int i)
@@ -29,6 +33,9 @@ public class Sound {
         {
             e.printStackTrace();
         }
+        volumeControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+        volumeControl.setValue((volumeControl.getMinimum()+volumeControl.getMaximum())/2);
+        actualVolume100=Math.abs(volumeControl.getMinimum()-volumeControl.getMaximum());
     }
     public void play()
     {
@@ -41,5 +48,13 @@ public class Sound {
     public void stop()
     {
         clip.stop();
+    }
+
+
+    public void modifyVolume(float percent)
+    {
+        float comparedVolume=percent*actualVolume100/100;
+        float newVolume = Math.min(volumeControl.getMaximum(), volumeControl.getMinimum()+comparedVolume);
+        volumeControl.setValue(newVolume);
     }
 }
