@@ -17,8 +17,6 @@ public class Assets
 {
     Game game;
     public Tile[] tile;
-
-
     public int  map_matrix[][];
 
     public Assets(Game game)
@@ -113,59 +111,9 @@ public class Assets
         setup(51,"/res/Castle/wall/wall_1.png",true);
         setup(52,"/res/Castle/wall/wall_2.png",true);
         setup(53,"/res/Castle/wall/wall_3.png",true);
+        setup(54,"/res/Castle/floor/floor/good tiles/tile136.png",false);
 
 
-        /*try{
-            tile[10]=new Tile();
-            tile[10].image=ImageIO.read(getClass().getResourceAsStream("/res/Tiles/Grass/grass_tile_0.png"));
-            tile[11]=new Tile();
-            tile[11].image=ImageIO.read(getClass().getResourceAsStream("/res/Tiles/Grass/grass_tile_1.png"));
-            tile[12]=new Tile();
-            tile[12].image=ImageIO.read(getClass().getResourceAsStream("/res/Tiles/Grass/grass_tile_2.png"));
-            tile[13]=new Tile();
-            tile[13].image=ImageIO.read(getClass().getResourceAsStream("/res/Tiles/Grass/grass_tile_3.png"));
-            tile[14]=new Tile();
-            tile[14].image=ImageIO.read(getClass().getResourceAsStream("/res/Tiles/Grass/grass_tile_4.png"));
-            tile[15]=new Tile();
-            tile[15].image=ImageIO.read(getClass().getResourceAsStream("/res/Tiles/Grass/grass_tile_5.png"));
-            tile[16]=new Tile();
-            tile[16].image=ImageIO.read(getClass().getResourceAsStream("/res/Tiles/Grass/grass_tile_6.png"));
-            tile[17]=new Tile();
-            tile[17].image=ImageIO.read(getClass().getResourceAsStream("/res/Tiles/Grass/grass_tile_7.png"));
-            tile[18]=new Tile();
-            tile[18].image=ImageIO.read(getClass().getResourceAsStream("/res/Tiles/Grass/grass_tile_8.png"));
-            //cobblestone
-            tile[19]=new Tile();
-            tile[19].image=ImageIO.read(getClass().getResourceAsStream("/res/Tiles/Stone/Ground&Stone/Stone/cobble.png"));
-            //tree
-            tile[20]=new Tile();
-            tile[20].image=ImageIO.read(getClass().getResourceAsStream("/res/Tiles/Tree/front_tree_final.png"));
-            tile[20].collision=true;
-
-            tile[21]=new Tile();
-            tile[21].image=ImageIO.read(getClass().getResourceAsStream("/res/Tiles/Tree/central_tree_final.png"));
-            tile[21].collision=true;
-
-            tile[22]=new Tile();
-            tile[22].image=ImageIO.read(getClass().getResourceAsStream("/res/Tiles/Tree/left_tree_final.png"));
-            tile[22].collision=true;
-
-            tile[23]=new Tile();
-            tile[23].image=ImageIO.read(getClass().getResourceAsStream("/res/Tiles/Tree/right_tree_final.png"));
-            tile[23].collision=true;
-
-            tile[30]=new Tile();
-            tile[30].image=ImageIO.read(getClass().getResourceAsStream("/res/Tiles/Stone/Ground&Stone/Stone/ground1.png"));
-            tile[30].collision=true;
-
-            tile[31]=new Tile();
-            tile[31].image=ImageIO.read(getClass().getResourceAsStream("/res/Tiles/Wood/wood_floor.png"));
-
-        }catch (IOException e)
-        {
-            e.printStackTrace();
-        }
-*/
     }
     public void Draw(Graphics g)
     {

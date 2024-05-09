@@ -8,7 +8,6 @@ public class TileScaler {
     {
         BufferedImage rezultat=new BufferedImage(width,height,BufferedImage.TYPE_INT_ARGB);
         Graphics g= rezultat.createGraphics();
-        //g.setBackground(new Color(0,0,0));
         g.drawImage(original,0,0,width,height,null);
         g.dispose();
         return rezultat;

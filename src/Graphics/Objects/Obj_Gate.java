@@ -11,7 +11,7 @@ public class Obj_Gate extends Super_Obj{
         super(g);
         name="Gate";
         try{
-            image= ImageIO.read(getClass().getResourceAsStream("/res/Castle/Gate/gate.png"));
+            image= ImageIO.read(getClass().getResourceAsStream("/res/Castle/Gate/gate-v2.png"));
             image= TileScaler.scaleImage(image,game.Tile_Size()*8,game.Tile_Size()*5);
         }catch (IOException e)
         {

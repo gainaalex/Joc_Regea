@@ -10,6 +10,10 @@ import java.io.IOException;
 public class Super_Obj {
     public Game game;
     public boolean priority_over_player=false;
+    protected static int animation_Counter=0;
+    public int freq_def=0;
+
+    protected static boolean isUpdated=false;
     public BufferedImage image;
     public String name;
     public boolean collision=false;
@@ -36,12 +40,39 @@ public class Super_Obj {
         }
         return image;
     }
+
+    public void set_image()
+    {
+
+    }
+
+    public void scaleImages(int width,int height)
+    {
+
+    }
+
+    public void Update()
+    {
+        if(freq_def==15)
+        {
+            freq_def=0;
+            if(animation_Counter==120)
+                animation_Counter=0;
+            else
+                animation_Counter++;
+            isUpdated=false;
+        }
+        else
+            freq_def++;
+    }
+
     public void Draw(Graphics g, Game game)
     {
+        set_image();
         int screenX=worldX-game.player1.WorldX+game.player1.screenX;
         int screenY=worldY-game.player1.WorldY+game.player1.screenY;
-        if (worldX + game.Tile_Size()*5>game.player1.WorldX-game.player1.screenX &&
-                worldY- game.Tile_Size()*5<game.player1.WorldX+game.player1.screenX &&
+        if (worldX + game.Tile_Size()*7>game.player1.WorldX-game.player1.screenX &&
+                worldX- game.Tile_Size()*7<game.player1.WorldX+game.player1.screenX &&
                 worldY+ game.Tile_Size()*5>game.player1.WorldY-game.player1.screenY &&
                 worldY- game.Tile_Size()*5<game.player1.WorldY+game.player1.screenY )
         {

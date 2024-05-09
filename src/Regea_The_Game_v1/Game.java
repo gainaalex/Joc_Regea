@@ -56,7 +56,7 @@ public class Game implements Runnable
 
         collision=new Collision(this);
 
-        obj_list=new Super_Obj[3];
+        obj_list=new Super_Obj[30];
         obj_setter=new Obj_Placement(this);
         obj_setter.setObjects();
 
@@ -161,6 +161,7 @@ public class Game implements Runnable
             if(npc_list[i]!=null)
                 npc_list[i].Update();
         }
+        obj_list[0].Update();
     }
 
     private void Draw() {
@@ -235,52 +236,3 @@ public class Game implements Runnable
         sound.play();
     }
 }
-
-/*
-    private void Draw()
-    {
-        /// Returnez bufferStrategy pentru canvasul existent
-        bs = wnd.GetCanvas().getBufferStrategy();
-        /// Verific daca buffer strategy a fost construit sau nu
-        if(bs == null)
-        {
-            /// Se executa doar la primul apel al metodei Draw()
-            try
-            {
-                /// Se construieste tripul buffer
-                wnd.GetCanvas().createBufferStrategy(3);
-                return;
-            }
-            catch (Exception e)
-            {
-                /// Afisez informatii despre problema aparuta pentru depanare.
-                e.printStackTrace();
-            }
-        }
-        /// Se obtine contextul grafic curent in care se poate desena.
-        g = bs.getDrawGraphics();
-        /// Se sterge ce era
-        g.clearRect(0, 0, wnd.GetWndWidth(), wnd.GetWndHeight());
-
-
-        /// operatie de desenare
-        // ...............
-        Tile.grassTile.Draw(g, 0 * Tile.TILE_WIDTH, 0);
-        Tile.soilTile.Draw(g, 1 * Tile.TILE_WIDTH, 0);
-        Tile.waterTile.Draw(g, 2 * Tile.TILE_WIDTH, 0);
-        Tile.mountainTile.Draw(g, 3 * Tile.TILE_WIDTH, 0);
-        Tile.treeTile.Draw(g, 4 * Tile.TILE_WIDTH, 0);
-
-        g.drawRect(1 * Tile.TILE_WIDTH, 1 * Tile.TILE_HEIGHT, Tile.TILE_WIDTH, Tile.TILE_HEIGHT);
-
-
-        // end operatie de desenare
-        /// Se afiseaza pe ecran
-        bs.show();
-
-        /// Elibereaza resursele de memorie aferente contextului grafic curent (zonele de memorie ocupate de
-        /// elementele grafice ce au fost desenate pe canvas).
-        g.dispose();
-    }
-}
-*/

@@ -34,8 +34,8 @@ public class Player extends Entity{
 
     public void set_position()
     {
-        WorldX=game.Tile_Size()*1;
-        WorldY=game.Tile_Size()*1;
+        WorldX=game.Tile_Size()*40;
+        WorldY=game.Tile_Size()*15;
         speed=3;
         direction="down";
 
