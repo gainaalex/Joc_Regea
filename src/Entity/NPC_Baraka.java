@@ -24,13 +24,6 @@ public class NPC_Baraka extends Entity {
     public void getNPCImage()
     {
         down=new BufferedImage[2];
-        /*try {
-            down[0]=ImageIO.read(getClass().getResourceAsStream("/res/Baraka_Sprites/stay_1.png"));
-            down[1]=ImageIO.read(getClass().getResourceAsStream("/res/Baraka_Sprites/stay_2.png"));
-        }catch (IOException e)
-        {
-            e.printStackTrace();
-        }*/
         down[0] = setup("/res/Baraka_Sprites/stay_1.png");
         down[0]= TileScaler.scaleImage(down[0],60,60);
         down[1] = setup("/res/Baraka_Sprites/stay_2.png");
@@ -39,7 +32,7 @@ public class NPC_Baraka extends Entity {
     }
     public void Update() {
         sprite_counter++;
-        if (sprite_counter > 30) {
+        if (sprite_counter > 60) {
             if (spriteNum == 1)
                 spriteNum = 0;
             else

@@ -106,6 +106,9 @@ public class Assets
         setup(47,"/res/Tiles/River/river_down_left.png",true);
         setup(48,"/res/Tiles/River/river_down_right.png",true);
 
+        //podea
+        setup(49,"/res/Castle/floor/floor/good tiles/tile176.png",false);
+
         //wall
         setup(50,"/res/Castle/wall/wall_0.png",true);
         setup(51,"/res/Castle/wall/wall_1.png",true);
@@ -113,11 +116,28 @@ public class Assets
         setup(53,"/res/Castle/wall/wall_3.png",true);
         setup(54,"/res/Castle/floor/floor/good tiles/tile136.png",false);
 
+        //flori+gard
+        setup(62,"/res/Flori/tile007.png",false);
+        setup(63,"/res/Flori/tile014.png",false);
+        setup(64,"/res/Flori/tile015.png",false);
+        setup(65,"/res/Flori/tile017.png",false);
+        setup(66,"/res/Flori/tile018.png",false);
+
+        //garduri
+
+        //animale
+        setup(60,"/res/Tiles/Gard de adaugat/Animale/gard_final/gard_orizontal.png",true);
+        setup(61,"/res/Tiles/Gard de adaugat/Animale/gard_final/gard_vertical.png",true);
+        //grau
+        setup(70,"/res/Tiles/Gard de adaugat/Grau/gard_final/gard_orizontal.png",true);
+        setup(71,"/res/Tiles/Gard de adaugat/Grau/gard_final/gard_vertical.png",true);
+        //sateni
+        setup(72,"/res/Tiles/Gard de adaugat/Sateni/gard_final/gard_orizontal.png",true);
+        setup(73,"/res/Tiles/Gard de adaugat/Sateni/gard_final/gard_vertical.png",true);
 
     }
     public void Draw(Graphics g)
     {
-        //g.drawImage(grass[0].image,0,0,game.Tile_Size(),game.Tile_Size(),null);
         int WorldCol=0,WorldRow=0;
         while(WorldCol< game.wnd.maxWorldCol && WorldRow<game.wnd.maxWorldRow)
         {
@@ -135,6 +155,9 @@ public class Assets
                 tile[current_tile]!=null)
             {
                 g.drawImage(tile[current_tile].image,screenX,screenY, null);
+
+
+                g.drawString(""+WorldCol+" "+(WorldRow-1),screenX,screenY);
             }
             WorldCol++;
             if (WorldCol== game.wnd.maxWorldCol)

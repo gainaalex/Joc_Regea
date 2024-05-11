@@ -71,10 +71,10 @@ public class Super_Obj {
         set_image();
         int screenX=worldX-game.player1.WorldX+game.player1.screenX;
         int screenY=worldY-game.player1.WorldY+game.player1.screenY;
-        if (worldX + game.Tile_Size()*7>game.player1.WorldX-game.player1.screenX &&
-                worldX- game.Tile_Size()*7<game.player1.WorldX+game.player1.screenX &&
-                worldY+ game.Tile_Size()*5>game.player1.WorldY-game.player1.screenY &&
-                worldY- game.Tile_Size()*5<game.player1.WorldY+game.player1.screenY )
+        if (worldX + game.Tile_Size()*9>game.player1.WorldX-game.player1.screenX &&
+                worldX- game.Tile_Size()*9<game.player1.WorldX+game.player1.screenX &&
+                worldY+ game.Tile_Size()*9>game.player1.WorldY-game.player1.screenY &&
+                worldY- game.Tile_Size()*9<game.player1.WorldY+game.player1.screenY )
         {
             g.drawImage(image,screenX,screenY,null);
         }

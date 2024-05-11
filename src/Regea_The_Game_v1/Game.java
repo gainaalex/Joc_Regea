@@ -56,7 +56,7 @@ public class Game implements Runnable
 
         collision=new Collision(this);
 
-        obj_list=new Super_Obj[30];
+        obj_list=new Super_Obj[100];
         obj_setter=new Obj_Placement(this);
         obj_setter.setObjects();
 
