@@ -212,7 +212,7 @@ public class Obj_Placement {
         game.obj_list[40].solidArea.height=4*game.Tile_Size()+12;
         game.obj_list[40].image=TileScaler.scaleImage(game.obj_list[40].image,7*game.Tile_Size(),5*game.Tile_Size());
         game.obj_list[40].worldX=25*game.Tile_Size();
-        game.obj_list[40].worldY=31*game.Tile_Size();
+        game.obj_list[40].worldY=28*game.Tile_Size();
 
         game.obj_list[41]=new Obj_Casa(game,2);
         game.obj_list[41].solidArea_defaultY= 2*game.Tile_Size();

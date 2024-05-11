@@ -200,6 +200,7 @@ public class Game implements Runnable
             if(obj_list[i]!=null && obj_list[i].priority_over_player==true)
                 obj_list[i].Draw(g,this);
         }
+        assets.Draw_Over_player(g);
         pause_ui.draw(g);
         bs.show();
         g.dispose();

@@ -14,8 +14,8 @@ public class GameWindow
     private final int wndHeight=maxHeight*Tile_Size;
 
     //World manager
-    public final int maxWorldCol=50;
-    public final int maxWorldRow=50;
+    public final int maxWorldCol=100;
+    public final int maxWorldRow=70;
 
     public final int worldWidth= Tile_Size*maxWorldCol;
     public final int worldHeigth= Tile_Size*maxWorldRow;

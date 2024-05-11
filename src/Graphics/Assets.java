@@ -17,6 +17,7 @@ public class Assets
 {
     Game game;
     public Tile[] tile;
+    public BufferedImage copac;
     public int  map_matrix[][];
 
     public Assets(Game game)
@@ -25,6 +26,13 @@ public class Assets
         tile=new Tile[101];
         GetTiles();
         LoadMap("/Graphics/Maps/World_Final_v2.txt");
+        try{
+            copac= ImageIO.read(getClass().getResourceAsStream("/res/Tiles/Tree/big tree/copac_2.png"));
+            copac=TileScaler.scaleImage(copac,2*game.Tile_Size(),3*game.Tile_Size());
+        }catch (IOException e)
+        {
+            e.printStackTrace();
+        }
     }
     public void LoadMap(String path)
     {
@@ -148,16 +156,46 @@ public class Assets
 
             int screenX=WorldX-game.player1.WorldX+game.player1.screenX;
             int screenY=WorldY-game.player1.WorldY+game.player1.screenY;
-            if (WorldX + game.Tile_Size()>game.player1.WorldX-game.player1.screenX &&
-                WorldX- game.Tile_Size()<game.player1.WorldX+game.player1.screenX &&
-                WorldY+ game.Tile_Size()>game.player1.WorldY-game.player1.screenY &&
-                WorldY- game.Tile_Size()<game.player1.WorldY+game.player1.screenY &&
+            if (WorldX + 2*game.Tile_Size()>game.player1.WorldX-game.player1.screenX &&
+                WorldX- 2*game.Tile_Size()<game.player1.WorldX+game.player1.screenX &&
+                WorldY+ 4*game.Tile_Size()>game.player1.WorldY-game.player1.screenY &&
+                WorldY- 4*game.Tile_Size()<game.player1.WorldY+game.player1.screenY &&
                 tile[current_tile]!=null)
             {
                 g.drawImage(tile[current_tile].image,screenX,screenY, null);
 
-
                 g.drawString(""+WorldCol+" "+(WorldRow-1),screenX,screenY);
+            }
+            WorldCol++;
+            if (WorldCol== game.wnd.maxWorldCol)
+            {
+                WorldCol=0;
+                WorldRow++;
+            }
+        }
+    }
+
+    public void Draw_Over_player(Graphics g)
+    {
+        int WorldCol=0,WorldRow=0;
+        while(WorldCol< game.wnd.maxWorldCol && WorldRow<game.wnd.maxWorldRow)
+        {
+            int current_tile=map_matrix[WorldRow][WorldCol];
+
+            int WorldX=WorldCol* game.Tile_Size();
+            int WorldY=WorldRow* game.Tile_Size();
+
+            int screenX=WorldX-game.player1.WorldX+game.player1.screenX;
+            int screenY=WorldY-game.player1.WorldY+game.player1.screenY;
+            if (WorldX + 2*game.Tile_Size()>game.player1.WorldX-game.player1.screenX &&
+                    WorldX- 2*game.Tile_Size()<game.player1.WorldX+game.player1.screenX &&
+                    WorldY+ 4*game.Tile_Size()>game.player1.WorldY-game.player1.screenY &&
+                    WorldY- 4*game.Tile_Size()<game.player1.WorldY+game.player1.screenY &&
+                    tile[current_tile]!=null)
+            {
+                if(current_tile>=20 && current_tile<=24 && (WorldCol+WorldRow)%3==0)
+                    g.drawImage(copac,screenX,screenY-2* game.Tile_Size(),null);
+
             }
             WorldCol++;
             if (WorldCol== game.wnd.maxWorldCol)
