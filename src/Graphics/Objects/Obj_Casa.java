@@ -10,6 +10,7 @@ public class Obj_Casa extends Super_Obj{
     {
         super(game);
         name="Casa"+type;
+        priority_over_player=true;
         try{
             switch (type) {
                 case 0:
@@ -32,6 +33,7 @@ public class Obj_Casa extends Super_Obj{
                     break;
                 case 6://casa vrajitoarei
                     image = ImageIO.read(getClass().getResourceAsStream("/res/Houses/house materials/house3x2.gif"));
+                    priority_over_player=false;
                     break;
                 default:
                     break;
@@ -41,7 +43,7 @@ public class Obj_Casa extends Super_Obj{
         {
             e.printStackTrace();
         }
-        priority_over_player=true;
+
         collision=true;
     }
 }

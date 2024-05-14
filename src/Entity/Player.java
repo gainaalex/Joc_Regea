@@ -34,8 +34,8 @@ public class Player extends Entity{
 
     public void set_position()
     {
-        WorldX=game.Tile_Size()*23;
-        WorldY=game.Tile_Size()*36;
+        WorldX=game.Tile_Size()*89;
+        WorldY=game.Tile_Size()*7;
         speed=5;
         direction="down";
 
@@ -121,7 +121,7 @@ public class Player extends Entity{
 
             int object_index=game.collision.checkObj(this,true);
             pickItem(object_index);
-
+            int npc_index=game.collision.checkEntity(this, game.npc_list);
             if (isCollision==false)
             {
                 switch (direction)

@@ -6,14 +6,14 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.Objects;
 
 public class Super_Obj {
     public Game game;
     public boolean priority_over_player=false;
     protected static int animation_Counter=0;
-    public int freq_def=0;
+    public static int freq_def=0;
 
-    protected static boolean isUpdated=false;
     public BufferedImage image;
     public String name;
     public boolean collision=false;
@@ -41,14 +41,12 @@ public class Super_Obj {
         return image;
     }
 
-    public void set_image()
+    public synchronized void set_image()
     {
-
     }
 
-    public void scaleImages(int width,int height)
+    public synchronized void scaleImages(int width,int height)
     {
-
     }
 
     public void Update()
@@ -60,7 +58,6 @@ public class Super_Obj {
                 animation_Counter=0;
             else
                 animation_Counter++;
-            isUpdated=false;
         }
         else
             freq_def++;
@@ -71,10 +68,10 @@ public class Super_Obj {
         set_image();
         int screenX=worldX-game.player1.WorldX+game.player1.screenX;
         int screenY=worldY-game.player1.WorldY+game.player1.screenY;
-        if (worldX + game.Tile_Size()*9>game.player1.WorldX-game.player1.screenX &&
-                worldX- game.Tile_Size()*9<game.player1.WorldX+game.player1.screenX &&
-                worldY+ game.Tile_Size()*9>game.player1.WorldY-game.player1.screenY &&
-                worldY- game.Tile_Size()*9<game.player1.WorldY+game.player1.screenY )
+        if (worldX + game.Tile_Size()*15>game.player1.WorldX-game.player1.screenX &&
+                worldX- game.Tile_Size()*15<game.player1.WorldX+game.player1.screenX &&
+                worldY+ game.Tile_Size()*15>game.player1.WorldY-game.player1.screenY &&
+                worldY- game.Tile_Size()*15<game.player1.WorldY+game.player1.screenY )
         {
             g.drawImage(image,screenX,screenY,null);
         }

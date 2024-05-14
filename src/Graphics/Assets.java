@@ -17,18 +17,26 @@ public class Assets
 {
     Game game;
     public Tile[] tile;
-    public BufferedImage copac;
+    public BufferedImage[] o_images;
     public int  map_matrix[][];
+
+    //for animated tiles
+    protected static int animation_Counter=0;
+    public int freq_def=0;
+    public boolean isUpdated=false;
 
     public Assets(Game game)
     {
         this.game=game;
+        o_images=new BufferedImage[5];
         tile=new Tile[101];
         GetTiles();
         LoadMap("/Graphics/Maps/World_Final_v2.txt");
         try{
-            copac= ImageIO.read(getClass().getResourceAsStream("/res/Tiles/Tree/big tree/copac_2.png"));
-            copac=TileScaler.scaleImage(copac,2*game.Tile_Size(),3*game.Tile_Size());
+            o_images[0]= ImageIO.read(getClass().getResourceAsStream("/res/Tiles/Tree/big tree/copac_2.png"));
+            o_images[0]=TileScaler.scaleImage(o_images[0],2*game.Tile_Size(),3*game.Tile_Size());
+            o_images[1]=ImageIO.read(getClass().getResourceAsStream("/res/Ferma/wheat_obj.png"));
+            o_images[1]=TileScaler.scaleImage(o_images[1],game.Tile_Size()+16,game.Tile_Size()+8);
         }catch (IOException e)
         {
             e.printStackTrace();
@@ -143,7 +151,33 @@ public class Assets
         setup(72,"/res/Tiles/Gard de adaugat/Sateni/gard_final/gard_orizontal.png",true);
         setup(73,"/res/Tiles/Gard de adaugat/Sateni/gard_final/gard_vertical.png",true);
 
+        //grau
+        setup(80,"/res/Tiles/Dirt.png",true);
+
     }
+
+    public void Update()
+    {
+        if(freq_def==15)
+        {
+            freq_def=0;
+            if(animation_Counter==120)
+            {
+                animation_Counter=0;
+            }
+            else
+                animation_Counter++;
+            isUpdated=true;
+        }
+        else
+            freq_def++;
+    }
+
+    public void setAnimation()
+    {
+
+    }
+
     public void Draw(Graphics g)
     {
         int WorldCol=0,WorldRow=0;
@@ -194,8 +228,9 @@ public class Assets
                     tile[current_tile]!=null)
             {
                 if(current_tile>=20 && current_tile<=24 && (WorldCol+WorldRow)%3==0)
-                    g.drawImage(copac,screenX,screenY-2* game.Tile_Size(),null);
-
+                    g.drawImage(o_images[0],screenX,screenY-2* game.Tile_Size(),null);
+                if(current_tile==80)
+                    g.drawImage(o_images[1],screenX,screenY-12,null);
             }
             WorldCol++;
             if (WorldCol== game.wnd.maxWorldCol)

@@ -246,6 +246,50 @@ public class Obj_Placement {
         game.obj_list[44].worldX=11*game.Tile_Size();
         game.obj_list[44].worldY=40*game.Tile_Size();
 
+        //ferma
+
+        game.obj_list[50]=new Obj_SuperFarm(game,0);
+        game.obj_list[50].solidArea_defaultY= 6*game.Tile_Size();
+        game.obj_list[50].solidArea.width=9*game.Tile_Size()-4;
+        game.obj_list[50].solidArea.height=3*game.Tile_Size()+12;
+        game.obj_list[50].scaleImages(9*game.Tile_Size(),9*game.Tile_Size());
+        game.obj_list[50].worldX=54*game.Tile_Size();
+        game.obj_list[50].worldY=41*game.Tile_Size();
+
+        game.obj_list[51]=new Obj_SuperFarm(game,1);
+        game.obj_list[51].solidArea_defaultY= 4*game.Tile_Size();
+        game.obj_list[51].solidArea.width=7*game.Tile_Size()-16;
+        game.obj_list[51].solidArea.height=6*game.Tile_Size()+12;
+        game.obj_list[51].scaleImages(9*game.Tile_Size(),9*game.Tile_Size());
+        game.obj_list[51].worldX=72*game.Tile_Size();
+        game.obj_list[51].worldY=34*game.Tile_Size();
+
+        game.obj_list[52]=new Obj_SuperFarm(game,2);
+        game.obj_list[52].solidArea_defaultY= 5*game.Tile_Size();
+        game.obj_list[52].solidArea.width=8*game.Tile_Size()+16;
+        game.obj_list[52].solidArea.height=5*game.Tile_Size()+12;
+        game.obj_list[52].scaleImages(10*game.Tile_Size(),10*game.Tile_Size());
+        game.obj_list[52].worldX=55*game.Tile_Size();
+        game.obj_list[52].worldY=25*game.Tile_Size();
+
+        //munte+pestera
+
+        game.obj_list[60]=new Obj_OneTile_Obj(game,6);
+        game.obj_list[60].solidArea_defaultY= 10*game.Tile_Size();
+        game.obj_list[60].solidArea.width=15*game.Tile_Size();
+        game.obj_list[60].solidArea.height=2*game.Tile_Size()+12;
+        game.obj_list[60].image=TileScaler.scaleImage(game.obj_list[60].image,20*game.Tile_Size(),15*game.Tile_Size());
+        game.obj_list[60].worldX=82*game.Tile_Size();
+        game.obj_list[60].worldY=0;
+
+        //casa vrajitoare
+        game.obj_list[61]=new Obj_Casa(game,6);
+        game.obj_list[61].solidArea_defaultY= 2*game.Tile_Size()-16;
+        game.obj_list[61].solidArea.width=5*game.Tile_Size()-4;
+        game.obj_list[61].solidArea.height=3*game.Tile_Size()+12;
+        game.obj_list[61].image=TileScaler.scaleImage(game.obj_list[61].image,5*game.Tile_Size(),5*game.Tile_Size());
+        game.obj_list[61].worldX=65*game.Tile_Size();
+        game.obj_list[61].worldY=7*game.Tile_Size();
 
     }
 }

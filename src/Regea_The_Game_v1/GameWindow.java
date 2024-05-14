@@ -45,7 +45,8 @@ public class GameWindow
         canvas.setPreferredSize(new Dimension(wndWidth, wndHeight));
         canvas.setMaximumSize(new Dimension(wndWidth, wndHeight));
         canvas.setMinimumSize(new Dimension(wndWidth, wndHeight));
-        canvas.setBackground(new Color(27,63,24));
+        canvas.setBackground(Color.BLACK);
+        //canvas.setBackground(new Color(27,63,24));
         wndFrame.add(canvas);
         wndFrame.pack();
     }

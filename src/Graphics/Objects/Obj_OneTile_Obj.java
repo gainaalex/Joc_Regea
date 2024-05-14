@@ -32,6 +32,10 @@ public class Obj_OneTile_Obj extends Super_Obj{
                     //buda
                     image= ImageIO.read(getClass().getResourceAsStream("/res/Ferma/buda.png"));
                     break;
+                //munte
+                case 6:
+                    image= ImageIO.read(getClass().getResourceAsStream("/res/Munte/fnal/idee_final_v1.png"));
+                    break;
             }
 
         }catch (IOException e)

@@ -10,6 +10,7 @@ import java.io.IOException;
 public class Obj_Fountain extends Super_Obj{
     public BufferedImage[] animated_obj;
     public int next_animation=0;
+    public int currentTempo=0;
     public Obj_Fountain(Game game,int type)
     {
         super(game);
@@ -55,14 +56,14 @@ public class Obj_Fountain extends Super_Obj{
     }
     @Override
     public void set_image() {
-        if(animation_Counter%3==0 && !isUpdated)
+        if(currentTempo!=animation_Counter && animation_Counter%3==0)
         {
-            image=animated_obj[next_animation];
-            if(next_animation==animated_obj.length-1)
-                next_animation=0;
+            image = animated_obj[next_animation];
+            if (next_animation == animated_obj.length - 1)
+                next_animation = 0;
             else
                 next_animation++;
-            isUpdated=true;
+            currentTempo=animation_Counter;
         }
     }
 }

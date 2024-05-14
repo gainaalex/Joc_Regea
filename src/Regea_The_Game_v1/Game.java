@@ -5,8 +5,8 @@ import Entity.Player;
 import Graphics.*;
 import Graphics.Objects.Super_Obj;
 import Graphics.Sound.Sound;
+import Regea_The_Game_v1.UI.UI;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferStrategy;
 
@@ -21,11 +21,12 @@ public class Game implements Runnable
 
     public int gameStatus;
 
-    public UI_game_pause pause_ui;
+    public UI ui;
 
-    public final int titlescreen=0;
+    public final int titleScreen_Status=0;
     public final int playStatus=1;
     public final int pauseStatus=2;
+    public final int dialogueStatus=3;
 
 
     CommandKeys keyboard_command= new CommandKeys(this);
@@ -46,8 +47,8 @@ public class Game implements Runnable
     {
         wnd = new GameWindow(title);
 
-        gameStatus=playStatus;
-        pause_ui=new UI_game_pause(this);
+        gameStatus=titleScreen_Status;
+        ui=new UI(this);
 
         player1=new Player(this,keyboard_command);
         npc_list=new Entity[10];
@@ -154,14 +155,14 @@ public class Game implements Runnable
 
     private void Update()
     {
-        if (gameStatus==playStatus)
+        if (gameStatus==playStatus) {
             player1.Update();
-        for (int i=0;i<10;i++)
-        {
-            if(npc_list[i]!=null)
-                npc_list[i].Update();
+            for (int i = 0; i < 10; i++) {
+                if (npc_list[i] != null)
+                    npc_list[i].Update();
+            }
+            obj_list[0].Update();
         }
-        obj_list[0].Update();
     }
 
     private void Draw() {
@@ -181,27 +182,30 @@ public class Game implements Runnable
         g = bs.getDrawGraphics();
         /// Se sterge ce era
         g.clearRect(0, 0, wnd.GetWndWidth(), wnd.GetWndHeight());
+        if(gameStatus==titleScreen_Status)
+        {
+            ui.Draw(g);
+        }
+        else {
+            assets.Draw(g);
 
-        assets.Draw(g);
+            for (int i = 0; i < obj_list.length; i++) {
+                if (obj_list[i] != null && obj_list[i].priority_over_player == false)
+                    obj_list[i].Draw(g, this);
+            }
+            for (int i = 0; i < npc_list.length; i++) {
+                if (npc_list[i] != null)
+                    npc_list[i].draw(g);
+            }
+            player1.Draw(g);
+            assets.Draw_Over_player(g);
+            for (int i = 0; i < obj_list.length; i++) {
+                if (obj_list[i] != null && obj_list[i].priority_over_player == true)
+                    obj_list[i].Draw(g, this);
+            }
 
-        for (int i=0;i< obj_list.length;i++)
-        {
-            if(obj_list[i]!=null && obj_list[i].priority_over_player==false)
-                obj_list[i].Draw(g,this);
+            ui.Draw(g);
         }
-        for (int i=0;i<npc_list.length;i++)
-        {
-            if(npc_list[i]!=null)
-                npc_list[i].draw(g);
-        }
-        player1.Draw(g);
-        for (int i=0;i< obj_list.length;i++)
-        {
-            if(obj_list[i]!=null && obj_list[i].priority_over_player==true)
-                obj_list[i].Draw(g,this);
-        }
-        assets.Draw_Over_player(g);
-        pause_ui.draw(g);
         bs.show();
         g.dispose();
     }

@@ -52,7 +52,10 @@ public class Entity {
     }
     public void Update()
     {
-
+        isCollision=false;
+        game.collision.checkTile(this);
+        game.collision.checkObj(this,false);
+        game.collision.check_interaction_w_player(this);
     }
 
 }

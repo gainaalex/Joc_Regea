@@ -19,28 +19,67 @@ public class CommandKeys implements KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
         int code=e.getKeyCode();
-        if (code == KeyEvent.VK_W)
-        {
-            up_command=true;
+        if(game.gameStatus== game.playStatus) {
+            if (code == KeyEvent.VK_W) {
+                up_command = true;
+            }
+            if (code == KeyEvent.VK_S) {
+                down_command = true;
+            }
+            if (code == KeyEvent.VK_A) {
+                left_command = true;
+            }
+            if (code == KeyEvent.VK_D) {
+                right_command = true;
+            }
+            if (code == KeyEvent.VK_ESCAPE || code == KeyEvent.VK_P) {
+                game.gameStatus = game.pauseStatus;
+            }
         }
-        if (code == KeyEvent.VK_S)
+        else if(game.gameStatus==game.pauseStatus)
         {
-            down_command=true;
+            if (code == KeyEvent.VK_ESCAPE || code == KeyEvent.VK_P) {
+                game.gameStatus = game.playStatus;
+            }
         }
-        if (code == KeyEvent.VK_A)
+        else if(game.gameStatus==game.titleScreen_Status)
         {
-            left_command=true;
-        }
-        if (code == KeyEvent.VK_D)
-        {
-            right_command=true;
-        }
-        if (code == KeyEvent.VK_ESCAPE || code == KeyEvent.VK_P)
-        {
-            if(game.gameStatus== game.playStatus)
-                game.gameStatus= game.pauseStatus;
-            else
-                game.gameStatus=game.playStatus;
+            if (code == KeyEvent.VK_W || code==KeyEvent.VK_UP) {
+                if(game.ui.commandLine!=0)
+                    game.ui.commandLine--;
+                else game.ui.commandLine=3;
+            }
+            if (code == KeyEvent.VK_S || code==KeyEvent.VK_DOWN) {
+                if(game.ui.commandLine!=3)
+                    game.ui.commandLine++;
+                else game.ui.commandLine=0;
+            }
+            if(code== KeyEvent.VK_ENTER || code== KeyEvent.VK_RIGHT)
+            {
+                switch (game.ui.commandLine)
+                {
+                    case 0:
+                        game.gameStatus= game.playStatus;
+                        break;
+                    case 1:
+                        if(game.ui.titleScreenState==0)
+                            game.ui.titleScreenState=2;
+                        break;
+                    case 2:
+                        if(game.ui.titleScreenState==0)
+                            game.ui.titleScreenState=1;
+                        break;
+                    case 3:
+                        game.StopGame();
+                        System.exit(0);
+                        break;
+                }
+            }
+            if(code== KeyEvent.VK_ESCAPE || code== KeyEvent.VK_LEFT)
+            {
+                if(game.ui.titleScreenState==1 || game.ui.titleScreenState==2)
+                    game.ui.titleScreenState=0;
+            }
         }
     }
 
