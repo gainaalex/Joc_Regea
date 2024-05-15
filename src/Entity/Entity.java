@@ -55,7 +55,7 @@ public class Entity {
         return image;
     }
 
-    public void draw(Graphics g) {
+    public void Draw(Graphics g) {
 
     }
     public void Update()

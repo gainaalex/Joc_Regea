@@ -58,7 +58,8 @@ public class NPC_Cow extends Entity{
             sprite_counter = 0;
         }
     }
-    public void draw(Graphics g)
+    @Override
+    public void Draw(Graphics g)
     {
         BufferedImage image=null;
         int screenX=WorldX-game.player1.WorldX+game.player1.screenX;

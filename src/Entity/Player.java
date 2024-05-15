@@ -28,15 +28,15 @@ public class Player extends Entity{
         solidArea_defaultX=solidArea.x;
         solidArea_defaultY=solidArea.y;
 
-        this.set_position();
+        this.set_position(55,55);
         this.getPlayerImage();
     }
 
-    public void set_position()
+    public void set_position(int x, int y)
     {
-        WorldX=game.Tile_Size()*55;
-        WorldY=game.Tile_Size()*55;
-        speed=3;
+        WorldX=game.Tile_Size()*x;
+        WorldY=game.Tile_Size()*y;
+        speed=7;
         direction="down";
 
     }
@@ -92,7 +92,7 @@ public class Player extends Entity{
     public void Update()
     {
             if(keyboard_command.left_command || keyboard_command.up_command
-                    || keyboard_command.down_command || keyboard_command.right_command || keyboard_command.jump || inAir) {
+                    || keyboard_command.down_command || keyboard_command.right_command) {
 
                 if (keyboard_command.up_command) {
                     direction="up";
@@ -122,7 +122,6 @@ public class Player extends Entity{
                 int object_index=game.collision.checkObj(this,true);
                 pickItem(object_index);
                 int npc_index=game.collision.checkEntity(this, game.npc_list);
-                if(game.gameStatus==game.playStatus) {
                     if (!isCollision) {
                         switch (direction) {
                             case "up":
@@ -139,46 +138,6 @@ public class Player extends Entity{
                                 break;
                         }
                     }
-
-                }
-                else if(game.gameStatus==game.fightStatus)
-                {
-                    if(keyboard_command.jump) {
-                        jump();
-                    }
-                    if(!keyboard_command.left_command && !keyboard_command.right_command && !keyboard_command.jump && !inAir)
-                        return;
-                    if(!inAir)
-                    {
-                        isCollision=false;
-                        game.collision.CheckFloor(this);
-                        if(!isCollision)
-                            inAir=true;
-
-                    }
-                    if(inAir)
-                    {
-                        if(airSpeed>0)
-                        {
-                            falling=true;
-                            airSpeed=fallSpeed;
-                        }
-                        if(!falling)
-                            airSpeed+=gravity;
-                        WorldY+=airSpeed;
-
-                        isCollision=false;
-                        game.collision.CheckFloor(this);
-                        if(isCollision)
-                        {
-                            inAir=false;
-                            falling=false;
-                        }
-
-                    }
-                    if(keyboard_command.left_command || keyboard_command.right_command)
-                        moveX();
-                }
                 sprite_counter++;
                 if (sprite_counter > 10) {
                     if (spriteNum == 8)
@@ -194,6 +153,70 @@ public class Player extends Entity{
             }
 
 
+    }
+    public void Update_InFights()
+    {
+        if(keyboard_command.left_command || keyboard_command.right_command || keyboard_command.jump || inAir)
+        {
+            if (keyboard_command.left_command) {
+                direction="left";
+
+                //   WorldX -= speed;
+            }
+            if (keyboard_command.right_command) {
+                direction="right";
+
+                //   WorldX += speed;
+            }
+            if(keyboard_command.jump) {
+                jump();
+            }
+            if(!keyboard_command.left_command && !keyboard_command.right_command && !keyboard_command.jump && !inAir)
+                return;
+            if(!inAir)
+            {
+                isCollision=false;
+                game.collision.CheckFloor(this);
+                if(!isCollision)
+                    inAir=true;
+
+            }
+            if(inAir)
+            {
+                if(airSpeed>0)
+                {
+                    falling=true;
+                    airSpeed=fallSpeed;
+                }
+                if(!falling)
+                    airSpeed+=gravity;
+                WorldY+=airSpeed;
+
+                isCollision=false;
+                game.collision.CheckFloor(this);
+                if(isCollision)
+                {
+                    inAir=false;
+                    falling=false;
+                }
+
+            }
+            if(keyboard_command.left_command || keyboard_command.right_command)
+                moveX();
+
+            sprite_counter++;
+            if (sprite_counter > 10) {
+                if (spriteNum == 8)
+                    spriteNum = 0;
+                else
+                    spriteNum++;
+                sprite_counter = 0;
+            }
+        }
+        else
+        {
+            spriteNum=0;
+        }
     }
 
 
@@ -226,7 +249,7 @@ public class Player extends Entity{
             }
         }
     }
-
+    @Override
     public void Draw(Graphics g)
     {
         BufferedImage img=null;
@@ -363,16 +386,16 @@ public class Player extends Entity{
 
     public void pickItem(int i) {
         if (i != -1) {
-            String obj_name=game.obj_list[i].name;
+            String obj_name=game.obj_list[game.wnd.currentMap][i].name;
             switch (obj_name)
             {
                 case "Door":
                     game.sound.setFile(3);
                     game.sound.play();
                         try {
-                            game.obj_list[i].image = ImageIO.read(getClass().getResourceAsStream("/res/Objects/castledoors_open.png"));
-                            game.obj_list[i].image=TileScaler.scaleImage(game.obj_list[0].image,game.Tile_Size(),game.Tile_Size());
-                            game.obj_list[i].name="Open_Door";
+                            game.obj_list[game.wnd.currentMap][i].image = ImageIO.read(getClass().getResourceAsStream("/res/Objects/castledoors_open.png"));
+                            game.obj_list[game.wnd.currentMap][i].image=TileScaler.scaleImage(game.obj_list[game.wnd.currentMap][0].image,game.Tile_Size(),game.Tile_Size());
+                            game.obj_list[game.wnd.currentMap][i].name="Open_Door";
                         }catch (IOException e)
                         {
                             e.printStackTrace();

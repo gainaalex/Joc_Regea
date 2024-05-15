@@ -18,7 +18,7 @@ public class Assets
     Game game;
     public Tile[] tile;
     public BufferedImage[] o_images;
-    public int  map_matrix[][];
+    public int[][][] map_matrix;
 
     //for animated tiles
     protected static int animation_Counter=0;
@@ -28,10 +28,12 @@ public class Assets
     public Assets(Game game)
     {
         this.game=game;
+        map_matrix=new int[game.wnd.maxMaps][][];
         o_images=new BufferedImage[5];
         tile=new Tile[101];
         GetTiles();
-        LoadMap("/Graphics/Maps/World_Final_v2.txt");
+        LoadMap("/Graphics/Maps/World_Final_v2.txt",0);
+        LoadMap("/Graphics/Maps/fight1_map.txt",1);
         try{
             o_images[0]= ImageIO.read(getClass().getResourceAsStream("/res/Tiles/Tree/big tree/copac_2.png"));
             o_images[0]=TileScaler.scaleImage(o_images[0],2*game.Tile_Size(),3*game.Tile_Size());
@@ -42,9 +44,9 @@ public class Assets
             e.printStackTrace();
         }
     }
-    public void LoadMap(String path)
+    public void LoadMap(String path, int current_map)
     {
-        map_matrix=new int[game.wnd.maxWorldRow][game.wnd.maxWorldCol];
+        map_matrix[current_map]=new int[game.wnd.maxWorldRow][game.wnd.maxWorldCol];
         try{
             InputStream input=getClass().getResourceAsStream(path);
             BufferedReader br=new BufferedReader(new InputStreamReader(input));
@@ -56,7 +58,7 @@ public class Assets
                 while(col<game.wnd.maxWorldCol) {
                     String[] num = line.split(" ");
                     int n = Integer.parseInt(num[col]);
-                    map_matrix[row][col]=n;
+                    map_matrix[current_map][row][col]=n;
                     col++;
                 }
                 if (col== game.wnd.maxWorldCol)
@@ -183,7 +185,7 @@ public class Assets
         int WorldCol=0,WorldRow=0;
         while(WorldCol< game.wnd.maxWorldCol && WorldRow<game.wnd.maxWorldRow)
         {
-            int current_tile=map_matrix[WorldRow][WorldCol];
+            int current_tile=map_matrix[game.wnd.currentMap][WorldRow][WorldCol];
 
             int WorldX=WorldCol* game.Tile_Size();
             int WorldY=WorldRow* game.Tile_Size();
@@ -214,7 +216,7 @@ public class Assets
         int WorldCol=0,WorldRow=0;
         while(WorldCol< game.wnd.maxWorldCol && WorldRow<game.wnd.maxWorldRow)
         {
-            int current_tile=map_matrix[WorldRow][WorldCol];
+            int current_tile=map_matrix[game.wnd.currentMap][WorldRow][WorldCol];
 
             int WorldX=WorldCol* game.Tile_Size();
             int WorldY=WorldRow* game.Tile_Size();

@@ -12,10 +12,11 @@ import java.awt.image.BufferStrategy;
 
 public class Game implements Runnable
 {
-    public GameWindow      wnd;
-    private boolean         runState;
-    private Thread          gameThread;
+    public GameWindow wnd;
+    private boolean runState;
+    private Thread  gameThread;
     private BufferStrategy bs;
+    private boolean isSwitching=true;
 
     private Graphics g;
 
@@ -35,10 +36,10 @@ public class Game implements Runnable
     Assets assets;
     public Player player1;
     public Collision collision;
-    public Super_Obj[] obj_list;
+    public Super_Obj[][] obj_list;
     public Obj_Placement obj_setter;
 
-    public Entity[] npc_list;
+    public Entity[][] npc_list;
     public NPC_Placement npcPlacement;
 
     public Sound background_music;
@@ -49,19 +50,19 @@ public class Game implements Runnable
     {
         wnd = new GameWindow(title);
 
-        previousStatus=fightStatus;
-        gameStatus=fightStatus;
+        previousStatus=playStatus;
+        gameStatus=playStatus;
 
         ui=new UI(this);
 
 
-        npc_list=new Entity[10];
+        npc_list=new Entity[wnd.maxMaps][10];
         npcPlacement=new NPC_Placement(this);
         npcPlacement.setNPCs();
 
         collision=new Collision(this);
 
-        obj_list=new Super_Obj[100];
+        obj_list=new Super_Obj[wnd.maxMaps][100];
         obj_setter=new Obj_Placement(this);
         obj_setter.setObjects();
 
@@ -160,13 +161,18 @@ public class Game implements Runnable
 
     private void Update()
     {
-        if (gameStatus==playStatus || gameStatus==fightStatus) {
+        if (gameStatus==playStatus) {
             player1.Update();
             for (int i = 0; i < 10; i++) {
-                if (npc_list[i] != null)
-                    npc_list[i].Update();
+                if (npc_list[wnd.currentMap][i] != null)
+                    npc_list[wnd.currentMap][i].Update();
             }
-            obj_list[0].Update();
+            if(obj_list[wnd.currentMap][0]!=null)
+                obj_list[wnd.currentMap][0].Update();
+        }
+        if(gameStatus==fightStatus)
+        {
+            player1.Update_InFights();
         }
     }
 
@@ -191,26 +197,44 @@ public class Game implements Runnable
         {
             ui.Draw(g);
         }
-        else {
+        else if(previousStatus==playStatus){
+            if(isSwitching==true)
+            {
+                wnd.currentMap=1;
+                player1.set_position(55,55);
+                isSwitching=false;
+            }
             assets.Draw(g);
 
             for (int i = 0; i < obj_list.length; i++) {
-                if (obj_list[i] != null && obj_list[i].priority_over_player == false)
-                    obj_list[i].Draw(g, this);
+                if (obj_list[wnd.currentMap][i] != null && obj_list[wnd.currentMap][i].priority_over_player == false)
+                    obj_list[wnd.currentMap][i].Draw(g, this);
             }
             for (int i = 0; i < npc_list.length; i++) {
-                if (npc_list[i] != null)
-                    npc_list[i].draw(g);
+                if (npc_list[wnd.currentMap][i] != null)
+                    npc_list[wnd.currentMap][i].Draw(g);
             }
             player1.Draw(g);
             assets.Draw_Over_player(g);
-            for (int i = 0; i < obj_list.length; i++) {
-                if (obj_list[i] != null && obj_list[i].priority_over_player == true)
-                    obj_list[i].Draw(g, this);
+            for (int i = 0; i < obj_list[wnd.currentMap].length; i++) {
+                if (obj_list[wnd.currentMap][i] != null && obj_list[wnd.currentMap][i].priority_over_player == true)
+                    obj_list[wnd.currentMap][i].Draw(g, this);
             }
 
             ui.Draw(g);
         }
+        else if(previousStatus==fightStatus)
+        {
+            if(isSwitching==true)
+            {
+                wnd.currentMap=1;
+                player1.set_position(0,0);
+                isSwitching=false;
+            }
+            assets.Draw(g);
+            player1.Draw(g);
+        }
+
         bs.show();
         g.dispose();
     }

@@ -34,8 +34,8 @@ public class Collision {
         {
             case "up":
                 entity_Tile_C=(entity_C-entity.speed)/game.Tile_Size();
-                tile_num1=game.assets.map_matrix[entity_Tile_C][entity_Tile_A];
-                tile_num2=game.assets.map_matrix[entity_Tile_C][entity_Tile_B];
+                tile_num1=game.assets.map_matrix[game.wnd.currentMap][entity_Tile_C][entity_Tile_A];
+                tile_num2=game.assets.map_matrix[game.wnd.currentMap][entity_Tile_C][entity_Tile_B];
                 if(game.assets.tile[tile_num1].collision==true || game.assets.tile[tile_num2].collision==true)
                 {
                     entity.isCollision=true;
@@ -43,8 +43,8 @@ public class Collision {
                 break;
             case "down":
                 entity_Tile_D=(entity_D+entity.speed)/game.Tile_Size();
-                tile_num1=game.assets.map_matrix[entity_Tile_D][entity_Tile_A];
-                tile_num2=game.assets.map_matrix[entity_Tile_D][entity_Tile_B];
+                tile_num1=game.assets.map_matrix[game.wnd.currentMap][entity_Tile_D][entity_Tile_A];
+                tile_num2=game.assets.map_matrix[game.wnd.currentMap][entity_Tile_D][entity_Tile_B];
                 if(game.assets.tile[tile_num1].collision==true || game.assets.tile[tile_num2].collision==true)
                 {
                     entity.isCollision=true;
@@ -52,8 +52,8 @@ public class Collision {
                 break;
             case "left":
                 entity_Tile_A=(entity_A-entity.speed)/game.Tile_Size();
-                tile_num1=game.assets.map_matrix[entity_Tile_C][entity_Tile_A];
-                tile_num2=game.assets.map_matrix[entity_Tile_D][entity_Tile_A];
+                tile_num1=game.assets.map_matrix[game.wnd.currentMap][entity_Tile_C][entity_Tile_A];
+                tile_num2=game.assets.map_matrix[game.wnd.currentMap][entity_Tile_D][entity_Tile_A];
                 if(game.assets.tile[tile_num1].collision==true || game.assets.tile[tile_num2].collision==true)
                 {
                     entity.isCollision=true;
@@ -61,8 +61,8 @@ public class Collision {
                 break;
             case "right":
                 entity_Tile_B=(entity_B+entity.speed)/game.Tile_Size();
-                tile_num1=game.assets.map_matrix[entity_Tile_C][entity_Tile_B];
-                tile_num2=game.assets.map_matrix[entity_Tile_D][entity_Tile_B];
+                tile_num1=game.assets.map_matrix[game.wnd.currentMap][entity_Tile_C][entity_Tile_B];
+                tile_num2=game.assets.map_matrix[game.wnd.currentMap][entity_Tile_D][entity_Tile_B];
                 if(game.assets.tile[tile_num1].collision==true || game.assets.tile[tile_num2].collision==true)
                 {
                     entity.isCollision=true;
@@ -81,8 +81,8 @@ public class Collision {
         int entity_Tile_B=entity_B/game.Tile_Size();
         int entity_Tile_D=entity_D/game.Tile_Size();
         entity_Tile_D=(entity_D+entity.airSpeed)/game.Tile_Size();
-        tile_num1=game.assets.map_matrix[entity_Tile_D][entity_Tile_A];
-        tile_num2=game.assets.map_matrix[entity_Tile_D][entity_Tile_B];
+        tile_num1=game.assets.map_matrix[game.wnd.currentMap][entity_Tile_D][entity_Tile_A];
+        tile_num2=game.assets.map_matrix[game.wnd.currentMap][entity_Tile_D][entity_Tile_B];
         if(game.assets.tile[tile_num1].collision==true || game.assets.tile[tile_num2].collision==true)
         {
             entity.isCollision=true;
@@ -101,8 +101,8 @@ public class Collision {
         int entity_Tile_C=entity_C/game.Tile_Size();
 
         entity_Tile_C=(entity_C)/game.Tile_Size();
-        tile_num1=game.assets.map_matrix[entity_Tile_C][entity_Tile_A];
-        tile_num2=game.assets.map_matrix[entity_Tile_C][entity_Tile_B];
+        tile_num1=game.assets.map_matrix[game.wnd.currentMap][entity_Tile_C][entity_Tile_A];
+        tile_num2=game.assets.map_matrix[game.wnd.currentMap][entity_Tile_C][entity_Tile_B];
         if(game.assets.tile[tile_num1].collision==true || game.assets.tile[tile_num2].collision==true)
         {
             entity.isCollision=true;
@@ -125,8 +125,8 @@ public class Collision {
         {
             case "left":
                 entity_Tile_A=(entity_A-entity.speed)/game.Tile_Size();
-                tile_num1=game.assets.map_matrix[entity_Tile_C][entity_Tile_A];
-                tile_num2=game.assets.map_matrix[entity_Tile_D][entity_Tile_A];
+                tile_num1=game.assets.map_matrix[game.wnd.currentMap][entity_Tile_C][entity_Tile_A];
+                tile_num2=game.assets.map_matrix[game.wnd.currentMap][entity_Tile_D][entity_Tile_A];
                 if(game.assets.tile[tile_num1].collision==true || game.assets.tile[tile_num2].collision==true)
                 {
                     entity.isCollision=true;
@@ -134,8 +134,8 @@ public class Collision {
                 break;
             case "right":
                 entity_Tile_B=(entity_B+entity.speed)/game.Tile_Size();
-                tile_num1=game.assets.map_matrix[entity_Tile_C][entity_Tile_B];
-                tile_num2=game.assets.map_matrix[entity_Tile_D][entity_Tile_B];
+                tile_num1=game.assets.map_matrix[game.wnd.currentMap][entity_Tile_C][entity_Tile_B];
+                tile_num2=game.assets.map_matrix[game.wnd.currentMap][entity_Tile_D][entity_Tile_B];
                 if(game.assets.tile[tile_num1].collision==true || game.assets.tile[tile_num2].collision==true)
                 {
                     entity.isCollision=true;
@@ -147,22 +147,22 @@ public class Collision {
     public int checkObj(Entity entity, boolean isPlayer)
     {
         int ret=-1;
-        for (int i=0;i<game.obj_list.length;i++)
+        for (int i=0;i<game.obj_list[game.wnd.currentMap].length;i++)
         {
-            if(game.obj_list[i]!=null)
+            if(game.obj_list[game.wnd.currentMap][i]!=null)
             {
                 entity.solidArea.x=entity.WorldX+entity.solidArea.x;
                 entity.solidArea.y=entity.WorldY+entity.solidArea.y;
 
-                game.obj_list[i].solidArea.x=game.obj_list[i].worldX+game.obj_list[i].solidArea.x;
-                game.obj_list[i].solidArea.y=game.obj_list[i].worldY+game.obj_list[i].solidArea.y;
+                game.obj_list[game.wnd.currentMap][i].solidArea.x=game.obj_list[game.wnd.currentMap][i].worldX+game.obj_list[game.wnd.currentMap][i].solidArea.x;
+                game.obj_list[game.wnd.currentMap][i].solidArea.y=game.obj_list[game.wnd.currentMap][i].worldY+game.obj_list[game.wnd.currentMap][i].solidArea.y;
 
                 switch (entity.direction)
                 {
                     case "up":
                         entity.solidArea.y-=entity.speed;
-                        if (entity.solidArea.intersects(game.obj_list[i].solidArea)) {
-                            if (game.obj_list[i].collision == true)
+                        if (entity.solidArea.intersects(game.obj_list[game.wnd.currentMap][i].solidArea)) {
+                            if (game.obj_list[game.wnd.currentMap][i].collision == true)
                                 entity.isCollision = true;
                             if (isPlayer=true)
                             {
@@ -172,8 +172,8 @@ public class Collision {
                         break;
                     case "down":
                         entity.solidArea.y+=entity.speed;
-                        if (entity.solidArea.intersects(game.obj_list[i].solidArea)) {
-                            if (game.obj_list[i].collision == true)
+                        if (entity.solidArea.intersects(game.obj_list[game.wnd.currentMap][i].solidArea)) {
+                            if (game.obj_list[game.wnd.currentMap][i].collision == true)
                                 entity.isCollision = true;
                             if (isPlayer=true)
                             {
@@ -183,8 +183,8 @@ public class Collision {
                         break;
                     case "left":
                         entity.solidArea.x-=entity.speed;
-                        if (entity.solidArea.intersects(game.obj_list[i].solidArea)) {
-                            if (game.obj_list[i].collision == true)
+                        if (entity.solidArea.intersects(game.obj_list[game.wnd.currentMap][i].solidArea)) {
+                            if (game.obj_list[game.wnd.currentMap][i].collision == true)
                                 entity.isCollision = true;
                             if (isPlayer=true)
                             {
@@ -194,8 +194,8 @@ public class Collision {
                         break;
                     case "right":
                         entity.solidArea.x+=entity.speed;
-                        if (entity.solidArea.intersects(game.obj_list[i].solidArea)) {
-                            if (game.obj_list[i].collision == true)
+                        if (entity.solidArea.intersects(game.obj_list[game.wnd.currentMap][i].solidArea)) {
+                            if (game.obj_list[game.wnd.currentMap][i].collision == true)
                                 entity.isCollision = true;
                             if (isPlayer=true)
                             {
@@ -206,52 +206,52 @@ public class Collision {
                 }
                 entity.solidArea.x= entity.solidArea_defaultX;
                 entity.solidArea.y=entity.solidArea_defaultY;
-                game.obj_list[i].solidArea.x=game.obj_list[i].solidArea_defaultX;
-                game.obj_list[i].solidArea.y=game.obj_list[i].solidArea_defaultY;
+                game.obj_list[game.wnd.currentMap][i].solidArea.x=game.obj_list[game.wnd.currentMap][i].solidArea_defaultX;
+                game.obj_list[game.wnd.currentMap][i].solidArea.y=game.obj_list[game.wnd.currentMap][i].solidArea_defaultY;
             }
         }
         return ret;
     }
     //coliziunea jucatorului cu alte npc_uri
-    public int checkEntity(Entity entity, Entity[] entities_list)
+    public int checkEntity(Entity entity, Entity[][] entities_list)
     {
         int ret=-1;
         for (int i=0;i<entities_list.length;i++)
         {
-            if(entities_list[i]!=null)
+            if(entities_list[game.wnd.currentMap][i]!=null)
             {
                 entity.solidArea.x=entity.WorldX+entity.solidArea.x;
                 entity.solidArea.y=entity.WorldY+entity.solidArea.y;
 
-                entities_list[i].solidArea.x=entities_list[i].WorldX+entities_list[i].solidArea.x;
-                entities_list[i].solidArea.y=entities_list[i].WorldY+entities_list[i].solidArea.y;
+                entities_list[game.wnd.currentMap][i].solidArea.x=entities_list[game.wnd.currentMap][i].WorldX+entities_list[game.wnd.currentMap][i].solidArea.x;
+                entities_list[game.wnd.currentMap][i].solidArea.y=entities_list[game.wnd.currentMap][i].WorldY+entities_list[game.wnd.currentMap][i].solidArea.y;
 
                 switch (entity.direction)
                 {
                     case "up":
                         entity.solidArea.y-=entity.speed;
-                        if (entity.solidArea.intersects(entities_list[i].solidArea)) {
+                        if (entity.solidArea.intersects(entities_list[game.wnd.currentMap][i].solidArea)) {
                             entity.isCollision = true;
                             ret=1;
                         }
                         break;
                     case "down":
                         entity.solidArea.y+=entity.speed;
-                        if (entity.solidArea.intersects(entities_list[i].solidArea)) {
+                        if (entity.solidArea.intersects(entities_list[game.wnd.currentMap][i].solidArea)) {
                             entity.isCollision = true;
                             ret=1;
                         }
                         break;
                     case "left":
                         entity.solidArea.x-=entity.speed;
-                        if (entity.solidArea.intersects(entities_list[i].solidArea)) {
+                        if (entity.solidArea.intersects(entities_list[game.wnd.currentMap][i].solidArea)) {
                             entity.isCollision = true;
                             ret=1;
                         }
                         break;
                     case "right":
                         entity.solidArea.x+=entity.speed;
-                        if (entity.solidArea.intersects(entities_list[i].solidArea)) {
+                        if (entity.solidArea.intersects(entities_list[game.wnd.currentMap][i].solidArea)) {
                             entity.isCollision = true;
                             ret=1;
                         }
@@ -259,8 +259,8 @@ public class Collision {
                 }
                 entity.solidArea.x= entity.solidArea_defaultX;
                 entity.solidArea.y=entity.solidArea_defaultY;
-                entities_list[i].solidArea.x=entities_list[i].solidArea_defaultX;
-                entities_list[i].solidArea.y=entities_list[i].solidArea_defaultY;
+                entities_list[game.wnd.currentMap][i].solidArea.x=entities_list[game.wnd.currentMap][i].solidArea_defaultX;
+                entities_list[game.wnd.currentMap][i].solidArea.y=entities_list[game.wnd.currentMap][i].solidArea_defaultY;
             }
         }
         return ret;

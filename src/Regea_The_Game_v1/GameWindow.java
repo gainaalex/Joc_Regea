@@ -13,6 +13,9 @@ public class GameWindow
     private final int wndWidth=maxWidth*Tile_Size;
     private final int wndHeight=maxHeight*Tile_Size;
 
+    public final int maxMaps=5;
+    public int currentMap=0;
+
     //World manager
     public final int maxWorldCol=100;
     public final int maxWorldRow=70;
