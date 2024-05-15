@@ -31,6 +31,7 @@ public class NPC_Baraka extends Entity {
 
     }
     public void Update() {
+        super.Update();
         sprite_counter++;
         if (sprite_counter > 60) {
             if (spriteNum == 1)
@@ -46,7 +47,7 @@ public class NPC_Baraka extends Entity {
         int screenX=WorldX-game.player1.WorldX+game.player1.screenX;
         int screenY=WorldY-game.player1.WorldY+game.player1.screenY;
         if (WorldX + game.Tile_Size()>game.player1.WorldX-game.player1.screenX &&
-                WorldY- game.Tile_Size()<game.player1.WorldX+game.player1.screenX &&
+                WorldX- game.Tile_Size()<game.player1.WorldX+game.player1.screenX &&
                 WorldY+ game.Tile_Size()>game.player1.WorldY-game.player1.screenY &&
                 WorldY- game.Tile_Size()<game.player1.WorldY+game.player1.screenY )
         {

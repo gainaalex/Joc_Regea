@@ -27,6 +27,14 @@ public class Entity {
     //coliziune cu tiles
     public boolean isCollision=false;
 
+    //pt gravitatie
+    public int airSpeed=0;
+    public int gravity=1;
+    public int jumpSpeed=-20;
+    public int fallSpeed=5;
+    public boolean inAir=false;
+    public boolean falling=false;
+
     public int solidArea_defaultX,solidArea_defaultY;
     public Entity(Game g)
     {

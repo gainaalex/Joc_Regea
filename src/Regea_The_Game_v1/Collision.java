@@ -13,7 +13,7 @@ public class Collision {
         //  AC----------BC
         //  |           |
         //  |           |
-        //  AC__________BD
+        //  AD__________BD
 
         // punctele pe harta mare
 
@@ -70,6 +70,80 @@ public class Collision {
                 break;
         }
     }
+    public void CheckFloor(Entity entity)
+    {
+        int tile_num1,tile_num2;
+        int entity_A=entity.WorldX+entity.solidArea.x;
+        int entity_B=entity.WorldX+entity.solidArea.x+entity.solidArea.width;
+        int entity_D=entity.WorldY+entity.solidArea.y+entity.solidArea.height;
+        // dpdv al tile urilor
+        int entity_Tile_A=entity_A/game.Tile_Size();
+        int entity_Tile_B=entity_B/game.Tile_Size();
+        int entity_Tile_D=entity_D/game.Tile_Size();
+        entity_Tile_D=(entity_D+entity.airSpeed)/game.Tile_Size();
+        tile_num1=game.assets.map_matrix[entity_Tile_D][entity_Tile_A];
+        tile_num2=game.assets.map_matrix[entity_Tile_D][entity_Tile_B];
+        if(game.assets.tile[tile_num1].collision==true || game.assets.tile[tile_num2].collision==true)
+        {
+            entity.isCollision=true;
+        }
+    }
+
+    public void CheckRoof(Entity entity)
+    {
+        int tile_num1,tile_num2;
+        int entity_A=entity.WorldX+entity.solidArea.x;
+        int entity_B=entity.WorldX+entity.solidArea.x+entity.solidArea.width;
+        int entity_C=entity.WorldY+entity.solidArea.y;
+        // dpdv al tile urilor
+        int entity_Tile_A=entity_A/game.Tile_Size();
+        int entity_Tile_B=entity_B/game.Tile_Size();
+        int entity_Tile_C=entity_C/game.Tile_Size();
+
+        entity_Tile_C=(entity_C)/game.Tile_Size();
+        tile_num1=game.assets.map_matrix[entity_Tile_C][entity_Tile_A];
+        tile_num2=game.assets.map_matrix[entity_Tile_C][entity_Tile_B];
+        if(game.assets.tile[tile_num1].collision==true || game.assets.tile[tile_num2].collision==true)
+        {
+            entity.isCollision=true;
+        }
+    }
+    public void CheckSides(Entity entity)
+    {
+        int tile_num1,tile_num2;
+        int entity_A=entity.WorldX+entity.solidArea.x;
+        int entity_B=entity.WorldX+entity.solidArea.x+entity.solidArea.width;
+        int entity_C=entity.WorldY+entity.solidArea.y;
+        int entity_D=entity.WorldY+entity.solidArea.y+entity.solidArea.height-16;
+        // dpdv al tile urilor
+        int entity_Tile_A=entity_A/game.Tile_Size();
+        int entity_Tile_B=entity_B/game.Tile_Size();
+        int entity_Tile_C=entity_C/game.Tile_Size();
+        int entity_Tile_D=entity_D/game.Tile_Size();
+        entity.isCollision=false;
+        switch (entity.direction)
+        {
+            case "left":
+                entity_Tile_A=(entity_A-entity.speed)/game.Tile_Size();
+                tile_num1=game.assets.map_matrix[entity_Tile_C][entity_Tile_A];
+                tile_num2=game.assets.map_matrix[entity_Tile_D][entity_Tile_A];
+                if(game.assets.tile[tile_num1].collision==true || game.assets.tile[tile_num2].collision==true)
+                {
+                    entity.isCollision=true;
+                }
+                break;
+            case "right":
+                entity_Tile_B=(entity_B+entity.speed)/game.Tile_Size();
+                tile_num1=game.assets.map_matrix[entity_Tile_C][entity_Tile_B];
+                tile_num2=game.assets.map_matrix[entity_Tile_D][entity_Tile_B];
+                if(game.assets.tile[tile_num1].collision==true || game.assets.tile[tile_num2].collision==true)
+                {
+                    entity.isCollision=true;
+                }
+                break;
+        }
+    }
+
     public int checkObj(Entity entity, boolean isPlayer)
     {
         int ret=-1;

@@ -1,11 +1,13 @@
 package Regea_The_Game_v1;
 
+import Entity.Player;
+
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class CommandKeys implements KeyListener {
     Game game;
-    public boolean up_command=false,down_command=false,left_command=false,right_command=false;
+    public boolean up_command=false,down_command=false,left_command=false,right_command=false,jump=false;
 
     public CommandKeys(Game g)
     {
@@ -39,7 +41,10 @@ public class CommandKeys implements KeyListener {
         else if(game.gameStatus==game.pauseStatus)
         {
             if (code == KeyEvent.VK_ESCAPE || code == KeyEvent.VK_P) {
-                game.gameStatus = game.playStatus;
+                if(game.previousStatus== game.playStatus)
+                    game.gameStatus = game.playStatus;
+                if(game.previousStatus==game.fightStatus)
+                    game.gameStatus= game.fightStatus;
             }
         }
         else if(game.gameStatus==game.titleScreen_Status)
@@ -81,6 +86,21 @@ public class CommandKeys implements KeyListener {
                     game.ui.titleScreenState=0;
             }
         }
+        else if(game.gameStatus==game.fightStatus)
+        {
+            if (code == KeyEvent.VK_A) {
+                left_command = true;
+            }
+            if (code == KeyEvent.VK_D) {
+                right_command = true;
+            }
+            if(code == KeyEvent.VK_SPACE) {
+                jump=true;
+            }
+            if (code == KeyEvent.VK_ESCAPE || code == KeyEvent.VK_P) {
+                game.gameStatus = game.pauseStatus;
+            }
+        }
     }
 
     @Override
@@ -95,5 +115,7 @@ public class CommandKeys implements KeyListener {
             left_command=false;
         if (code== KeyEvent.VK_D)
             right_command=false;
+        if(code == KeyEvent.VK_SPACE)
+            jump=false;
     }
 }

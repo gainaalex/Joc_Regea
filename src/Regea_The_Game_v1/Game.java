@@ -27,6 +27,8 @@ public class Game implements Runnable
     public final int playStatus=1;
     public final int pauseStatus=2;
     public final int dialogueStatus=3;
+    public final int fightStatus=4;
+    public int previousStatus;
 
 
     CommandKeys keyboard_command= new CommandKeys(this);
@@ -47,10 +49,12 @@ public class Game implements Runnable
     {
         wnd = new GameWindow(title);
 
-        gameStatus=titleScreen_Status;
+        previousStatus=fightStatus;
+        gameStatus=fightStatus;
+
         ui=new UI(this);
 
-        player1=new Player(this,keyboard_command);
+
         npc_list=new Entity[10];
         npcPlacement=new NPC_Placement(this);
         npcPlacement.setNPCs();
@@ -73,6 +77,7 @@ public class Game implements Runnable
         wnd.GetCanvas().setFocusable(true);
         runState = false;
         assets=new Assets(this);
+        player1=new Player(this,keyboard_command);
     }
 
 
@@ -155,7 +160,7 @@ public class Game implements Runnable
 
     private void Update()
     {
-        if (gameStatus==playStatus) {
+        if (gameStatus==playStatus || gameStatus==fightStatus) {
             player1.Update();
             for (int i = 0; i < 10; i++) {
                 if (npc_list[i] != null)

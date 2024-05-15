@@ -1,5 +1,6 @@
 package Entity;
 
+import Regea_The_Game_v1.Collision;
 import Regea_The_Game_v1.CommandKeys;
 import Regea_The_Game_v1.Game;
 import Graphics.*;
@@ -14,7 +15,6 @@ import java.util.Objects;
 
 public class Player extends Entity{
     private CommandKeys keyboard_command;
-
     public final int screenX;
     public final int screenY;
     public Player(Game g, CommandKeys Ck)
@@ -34,9 +34,9 @@ public class Player extends Entity{
 
     public void set_position()
     {
-        WorldX=game.Tile_Size()*89;
-        WorldY=game.Tile_Size()*7;
-        speed=5;
+        WorldX=game.Tile_Size()*55;
+        WorldY=game.Tile_Size()*55;
+        speed=3;
         direction="down";
 
     }
@@ -91,63 +91,142 @@ public class Player extends Entity{
 
     public void Update()
     {
-        if(keyboard_command.left_command || keyboard_command.up_command
-                                || keyboard_command.down_command || keyboard_command.right_command) {
+            if(keyboard_command.left_command || keyboard_command.up_command
+                    || keyboard_command.down_command || keyboard_command.right_command || keyboard_command.jump || inAir) {
 
-            if (keyboard_command.up_command) {
-                direction="up";
-                //    WorldY -= speed;
+                if (keyboard_command.up_command) {
+                    direction="up";
+                    //    WorldY -= speed;
 
-            }
-            if (keyboard_command.down_command) {
-                direction="down";
+                }
+                if (keyboard_command.down_command) {
+                    direction="down";
 
-                  //  WorldY += speed;
-            }
-            if (keyboard_command.left_command) {
-                direction="left";
+                    //  WorldY += speed;
+                }
+                if (keyboard_command.left_command) {
+                    direction="left";
 
-                 //   WorldX -= speed;
-            }
-            if (keyboard_command.right_command) {
-                direction="right";
+                    //   WorldX -= speed;
+                }
+                if (keyboard_command.right_command) {
+                    direction="right";
 
-                 //   WorldX += speed;
-            }
+                    //   WorldX += speed;
+                }
 
-            // verific daca are coliziune cu tile ul
-            isCollision=false;
-            //game.collision.checkTile(this);
+                // verific daca are coliziune cu tile ul
+                isCollision=false;
+                game.collision.checkTile(this);
 
-            int object_index=game.collision.checkObj(this,true);
-            pickItem(object_index);
-            int npc_index=game.collision.checkEntity(this, game.npc_list);
-            if (isCollision==false)
-            {
-                switch (direction)
+                int object_index=game.collision.checkObj(this,true);
+                pickItem(object_index);
+                int npc_index=game.collision.checkEntity(this, game.npc_list);
+                if(game.gameStatus==game.playStatus) {
+                    if (!isCollision) {
+                        switch (direction) {
+                            case "up":
+                                WorldY -= speed;
+                                break;
+                            case "down":
+                                WorldY += speed;
+                                break;
+                            case "left":
+                                WorldX -= speed;
+                                break;
+                            case "right":
+                                WorldX += speed;
+                                break;
+                        }
+                    }
+
+                }
+                else if(game.gameStatus==game.fightStatus)
                 {
-                    case "up":WorldY -= speed;break;
-                    case "down":WorldY += speed;break;
-                    case "left":WorldX -= speed;break;
-                    case "right":WorldX += speed;break;
+                    if(keyboard_command.jump) {
+                        jump();
+                    }
+                    if(!keyboard_command.left_command && !keyboard_command.right_command && !keyboard_command.jump && !inAir)
+                        return;
+                    if(!inAir)
+                    {
+                        isCollision=false;
+                        game.collision.CheckFloor(this);
+                        if(!isCollision)
+                            inAir=true;
+
+                    }
+                    if(inAir)
+                    {
+                        if(airSpeed>0)
+                        {
+                            falling=true;
+                            airSpeed=fallSpeed;
+                        }
+                        if(!falling)
+                            airSpeed+=gravity;
+                        WorldY+=airSpeed;
+
+                        isCollision=false;
+                        game.collision.CheckFloor(this);
+                        if(isCollision)
+                        {
+                            inAir=false;
+                            falling=false;
+                        }
+
+                    }
+                    if(keyboard_command.left_command || keyboard_command.right_command)
+                        moveX();
+                }
+                sprite_counter++;
+                if (sprite_counter > 10) {
+                    if (spriteNum == 8)
+                        spriteNum = 0;
+                    else
+                        spriteNum++;
+                    sprite_counter = 0;
                 }
             }
-
-            sprite_counter++;
-            if (sprite_counter > 10) {
-                if (spriteNum == 8)
-                    spriteNum = 0;
-                else
-                    spriteNum++;
-                sprite_counter = 0;
+            else
+            {
+                spriteNum=0;
             }
-        }
-        else
-        {
-            spriteNum=0;
-        }
+
 
     }
+
+
+
+    private void jump() {
+        if(inAir)
+            return;
+        inAir=true;
+        airSpeed=jumpSpeed;
+        falling=false;
+    }
+    private void resetInAir()
+    {
+        falling=true;
+        airSpeed=0;
+    }
+    private void moveX() {
+        isCollision = false;
+        game.collision.CheckSides(this);
+        int object_index = game.collision.checkObj(this, true);
+        int npc_index = game.collision.checkEntity(this, game.npc_list);
+        if (!isCollision) {
+            switch (direction) {
+                case "left":
+                    WorldX -= speed;
+                    break;
+                case "right":
+                    WorldX += speed;
+                    break;
+            }
+        }
+    }
+
     public void Draw(Graphics g)
     {
         BufferedImage img=null;
@@ -280,8 +359,6 @@ public class Player extends Entity{
                 break;
         }
         g.drawImage(img,screenX,screenY,null);
-        /*g.setColor(Color.white);
-        g.fillRect(x,y, game.Tile_Size(), game.Tile_Size());*/
     }
 
     public void pickItem(int i) {
