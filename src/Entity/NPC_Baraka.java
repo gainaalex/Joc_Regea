@@ -13,6 +13,7 @@ public class NPC_Baraka extends Entity {
 
     public NPC_Baraka(Game g) {
         super(g);
+        name="Baraka";
         direction="down";
         speed=0;
         solidArea.x=0;

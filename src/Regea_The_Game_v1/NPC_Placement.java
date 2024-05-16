@@ -1,6 +1,7 @@
 package Regea_The_Game_v1;
 
 import Entity.NPC_Baraka;
+import Entity.NPC_Baraka_Fight;
 import Entity.NPC_Cow;
 
 public class NPC_Placement {
@@ -22,5 +23,10 @@ public class NPC_Placement {
         game.npc_list[0][2]=new NPC_Cow(game);
         game.npc_list[0][2].WorldX=game.Tile_Size()*7;
         game.npc_list[0][2].WorldY=game.Tile_Size()*13;
+
+        //bosses
+        game.bosses[1][0]=new NPC_Baraka_Fight(game);
+        game.bosses[1][0].WorldX=56*game.Tile_Size();
+        game.bosses[1][0].WorldY=48*game.Tile_Size();
     }
 }

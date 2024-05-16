@@ -14,6 +14,7 @@ public class NPC_Cow extends Entity{
     public int freq;
     public NPC_Cow(Game g) {
         super(g);
+        name="Cow";
         direction="left";
         speed=0;
         solidArea.x=0;

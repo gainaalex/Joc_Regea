@@ -7,7 +7,8 @@ import java.awt.event.KeyListener;
 
 public class CommandKeys implements KeyListener {
     Game game;
-    public boolean up_command=false,down_command=false,left_command=false,right_command=false,jump=false;
+    public boolean up_command=false,down_command=false,left_command=false,
+            right_command=false,jump=false,e_command=false,enter_command=false;
 
     public CommandKeys(Game g)
     {
@@ -33,6 +34,13 @@ public class CommandKeys implements KeyListener {
             }
             if (code == KeyEvent.VK_D) {
                 right_command = true;
+            }
+            if (code == KeyEvent.VK_E) {
+                e_command = true;
+            }
+            if(code==KeyEvent.VK_ENTER)
+            {
+                enter_command=true;
             }
             if (code == KeyEvent.VK_ESCAPE || code == KeyEvent.VK_P) {
                 game.gameStatus = game.pauseStatus;
@@ -117,5 +125,11 @@ public class CommandKeys implements KeyListener {
             right_command=false;
         if(code == KeyEvent.VK_SPACE)
             jump=false;
+        if (code == KeyEvent.VK_E) {
+            e_command = false;
+        }
+        if(code==KeyEvent.VK_ENTER) {
+            enter_command=false;
+        }
     }
 }

@@ -20,6 +20,7 @@ public class Player extends Entity{
     public Player(Game g, CommandKeys Ck)
     {
         super(g);
+        name="Player";
         solidArea=new Rectangle(16,32,12,10);
         keyboard_command=Ck;
         screenX=(game.GetWndWidth()/2)-(game.wnd.Tile_Size/2);
@@ -30,7 +31,10 @@ public class Player extends Entity{
 
         this.set_position(55,55);
         this.getPlayerImage();
+        this.getAttackAnimations();
     }
+
+
 
     public void set_position(int x, int y)
     {
@@ -89,39 +93,86 @@ public class Player extends Entity{
         right[8] = setup("/res/Regea_Sprites/walk_right/image_11-8.png");
     }
 
+    public void getAttackAnimations()
+    {
+        attackLeft=new BufferedImage[6];
+        attackLeft[0]=setup("/res/Regea_Sprites/attack_left/tile008.png");
+        attackLeft[1]=setup("/res/Regea_Sprites/attack_left/tile009.png");
+        attackLeft[2]=setup("/res/Regea_Sprites/attack_left/tile010.png");
+        attackLeft[3]=setup("/res/Regea_Sprites/attack_left/tile011.png");
+        attackLeft[4]=setup("/res/Regea_Sprites/attack_left/tile012.png");
+        attackLeft[5]=setup("/res/Regea_Sprites/attack_left/tile013.png");
+
+        attackRight=new BufferedImage[6];
+        attackRight[0]=setup("/res/Regea_Sprites/attack_right/tile024.png");
+        attackRight[1]=setup("/res/Regea_Sprites/attack_right/tile025.png");
+        attackRight[2]=setup("/res/Regea_Sprites/attack_right/tile026.png");
+        attackRight[3]=setup("/res/Regea_Sprites/attack_right/tile027.png");
+        attackRight[4]=setup("/res/Regea_Sprites/attack_right/tile028.png");
+        attackRight[5]=setup("/res/Regea_Sprites/attack_right/tile029.png");
+
+        attackLeft=scaleImagesEntity(attackLeft,2,1);
+        attackRight=scaleImagesEntity(attackRight,2,1);
+    }
+
     public void Update()
     {
-            if(keyboard_command.left_command || keyboard_command.up_command
-                    || keyboard_command.down_command || keyboard_command.right_command) {
+        int npc_index=game.collision.checkEntity(this,game.bosses);
+        contactBoss(npc_index);
+        if(invincible)
+        {
+            if(invincibleCounter==120)
+            {
+                invincible=false;
+                invincibleCounter=0;
+            }
+            invincibleCounter++;
+        }
+        if(keyboard_command.enter_command && !attacking)
+        {
+            attacking=true;
+            spriteNum=0;
+            sprite_counter=0;
+        }
+        if(attacking)
+        {
+            attackingAnim();
+        }
+        else {
+            if (keyboard_command.left_command || keyboard_command.up_command
+                    || keyboard_command.down_command || keyboard_command.right_command || keyboard_command.e_command) {
 
                 if (keyboard_command.up_command) {
-                    direction="up";
+                    direction = "up";
                     //    WorldY -= speed;
 
                 }
                 if (keyboard_command.down_command) {
-                    direction="down";
+                    direction = "down";
 
                     //  WorldY += speed;
                 }
                 if (keyboard_command.left_command) {
-                    direction="left";
+                    direction = "left";
 
                     //   WorldX -= speed;
                 }
                 if (keyboard_command.right_command) {
-                    direction="right";
+                    direction = "right";
 
                     //   WorldX += speed;
                 }
 
                 // verific daca are coliziune cu tile ul
-                isCollision=false;
+                isCollision = false;
                 game.collision.checkTile(this);
 
-                int object_index=game.collision.checkObj(this,true);
+                int object_index = game.collision.checkObj(this, true);
                 pickItem(object_index);
-                int npc_index=game.collision.checkEntity(this, game.npc_list);
+                npc_index = game.collision.checkEntity(this, game.npc_list);
+                interactNPC(npc_index);
+                if (keyboard_command.left_command || keyboard_command.up_command
+                        || keyboard_command.down_command || keyboard_command.right_command)
                     if (!isCollision) {
                         switch (direction) {
                             case "up":
@@ -146,14 +197,52 @@ public class Player extends Entity{
                         spriteNum++;
                     sprite_counter = 0;
                 }
+            } else {
+                spriteNum = 0;
             }
-            else
-            {
-                spriteNum=0;
-            }
+        }
+        game.eventInterpretor.checkEvent();
+    }
 
+    private void attackingAnim() {
+        sprite_counter++;
+        if(sprite_counter>15)
+        {
+            spriteNum++;
+            if(spriteNum>=5) {
+                spriteNum = 0;
+                attacking=false;
+            }
+            sprite_counter=0;
+        }
+    }
+
+    public void interactNPC(int npc_index) {
+        if(npc_index!=-1)
+        {
+            if(keyboard_command.e_command) {
+                if (npc_index == 0) {
+                    System.out.println("tatati");
+                }
+                keyboard_command.e_command=false;
+            }
+        }
+    }
+
+    public void contactBoss(int npcIndex) {
+        if(npcIndex!=-1)
+        {
+            if(npcIndex==0) {
+                if(invincible==false)
+                {
+                    System.out.println("sugi");
+                    invincible=true;
+                }
+            }
+        }
 
     }
+
     public void Update_InFights()
     {
         if(keyboard_command.left_command || keyboard_command.right_command || keyboard_command.jump || inAir)
@@ -220,7 +309,6 @@ public class Player extends Entity{
     }
 
 
-
     private void jump() {
         if(inAir)
             return;
@@ -248,138 +336,38 @@ public class Player extends Entity{
                     break;
             }
         }
+
     }
     @Override
     public void Draw(Graphics g)
     {
         BufferedImage img=null;
-
-        switch (direction){
-            case "up":
-                switch (spriteNum){
-                    case 0:
-                        img=up[0];
-                        break;
-                    case 1:
-                        img=up[1];
-                        break;
-                    case 2:
-                        img=up[2];
-                        break;
-                    case 3:
-                        img=up[3];
-                        break;
-                    case 4:
-                        img=up[4];
-                        break;
-                    case 5:
-                        img=up[5];
-                        break;
-                    case 6:
-                        img=up[6];
-                        break;
-                    case 7:
-                        img=up[7];
-                        break;
-                    case 8:
-                        img=up[8];
-                        break;
-
-                }
-                break;
-            case "down":
-                switch (spriteNum){
-                    case 0:
-                        img=down[0];
-                        break;
-                    case 1:
-                        img=down[1];
-                        break;
-                    case 2:
-                        img=down[2];
-                        break;
-                    case 3:
-                        img=down[3];
-                        break;
-                    case 4:
-                        img=down[4];
-                        break;
-                    case 5:
-                        img=down[5];
-                        break;
-                    case 6:
-                        img=down[6];
-                        break;
-                    case 7:
-                        img=down[7];
-                        break;
-                    case 8:
-                        img=down[8];
-                        break;
-                }
-                break;
-            case "left":
-                switch (spriteNum){
-                    case 0:
-                        img=left[0];
-                        break;
-                    case 1:
-                        img=left[1];
-                        break;
-                    case 2:
-                        img=left[2];
-                        break;
-                    case 3:
-                        img=left[3];
-                        break;
-                    case 4:
-                        img=left[4];
-                        break;
-                    case 5:
-                        img=left[5];
-                        break;
-                    case 6:
-                        img=left[6];
-                        break;
-                    case 7:
-                        img=left[7];
-                        break;
-                    case 8:
-                        img=left[8];
-                        break;
-                }
-                break;
-            case "right":
-                switch (spriteNum){
-                    case 0:
-                        img=right[0];
-                        break;
-                    case 1:
-                        img=right[1];
-                        break;
-                    case 2:
-                        img=right[2];
-                        break;
-                    case 3:
-                        img=right[3];
-                        break;
-                    case 4:
-                        img=right[4];
-                        break;
-                    case 5:
-                        img=right[5];
-                        break;
-                    case 6:
-                        img=right[6];
-                        break;
-                    case 7:
-                        img=right[7];
-                        break;
-                    case 8:
-                        img=right[8];
-                        break;
-                }
-                break;
+        if(!attacking) {
+            switch (direction) {
+                case "up":
+                    img=up[spriteNum];
+                    break;
+                case "down":
+                    img = down[spriteNum];
+                    break;
+                case "left":
+                    img=left[spriteNum];
+                    break;
+                case "right":
+                    img=right[spriteNum];
+                    break;
+            }
+        }
+        else {
+            switch (direction)
+            {
+                case "left":
+                    img=attackLeft[spriteNum];
+                    break;
+                case "right":
+                    img=attackRight[spriteNum];
+                    break;
+            }
         }
         g.drawImage(img,screenX,screenY,null);
     }

@@ -17,15 +17,19 @@ public class Entity {
     //pozitia globala
     public int WorldX,WorldY;
     public int speed;
-
+    public String name;
     public String direction;
     public BufferedImage[] up,down,left,right;
+    public BufferedImage[] attackUp,attackDown,attackLeft,attackRight;
 
     public int sprite_counter=0;
     public int spriteNum=0;
     public Rectangle solidArea;
     //coliziune cu tiles
     public boolean isCollision=false;
+
+    //stats
+    public int maxHealth,currentLife;
 
     //pt gravitatie
     public int airSpeed=0;
@@ -36,6 +40,11 @@ public class Entity {
     public boolean falling=false;
 
     public int solidArea_defaultX,solidArea_defaultY;
+
+    //for fights
+    public boolean attacking=false;
+    public boolean invincible=false;
+    public int invincibleCounter=0;
     public Entity(Game g)
     {
         this.game=g;
@@ -53,6 +62,24 @@ public class Entity {
             e.printStackTrace();
         }
         return image;
+    }
+
+    public BufferedImage[] scaleImagesEntity(BufferedImage[] image,float xwidth, float yheight)
+    {
+
+        int width=Math.round(xwidth*game.Tile_Size());
+        int heigth=Math.round(yheight*game.Tile_Size());
+        for(int i=0;i<image.length;i++)
+        {
+            image[i]=TileScaler.scaleImage(image[i], width,heigth);
+        }
+        return image;
+    }
+
+    public void scaleSolidArea(float xwidth, float yheight)
+    {
+        solidArea.width=Math.round(solidArea.width*xwidth)-32;
+        solidArea.height=Math.round(solidArea.height*yheight);
     }
 
     public void Draw(Graphics g) {

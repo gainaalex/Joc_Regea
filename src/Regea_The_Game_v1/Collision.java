@@ -232,28 +232,28 @@ public class Collision {
                         entity.solidArea.y-=entity.speed;
                         if (entity.solidArea.intersects(entities_list[game.wnd.currentMap][i].solidArea)) {
                             entity.isCollision = true;
-                            ret=1;
+                            ret=i;
                         }
                         break;
                     case "down":
                         entity.solidArea.y+=entity.speed;
                         if (entity.solidArea.intersects(entities_list[game.wnd.currentMap][i].solidArea)) {
                             entity.isCollision = true;
-                            ret=1;
+                            ret=i;
                         }
                         break;
                     case "left":
                         entity.solidArea.x-=entity.speed;
                         if (entity.solidArea.intersects(entities_list[game.wnd.currentMap][i].solidArea)) {
                             entity.isCollision = true;
-                            ret=1;
+                            ret=i;
                         }
                         break;
                     case "right":
                         entity.solidArea.x+=entity.speed;
                         if (entity.solidArea.intersects(entities_list[game.wnd.currentMap][i].solidArea)) {
                             entity.isCollision = true;
-                            ret=1;
+                            ret=i;
                         }
                         break;
                 }
@@ -264,6 +264,46 @@ public class Collision {
             }
         }
         return ret;
+    }
+
+    public void checkEntity(Entity entity, Entity target)
+    {
+        if(target!=null)
+        {
+            entity.solidArea.x=entity.WorldX+entity.solidArea.x;
+            entity.solidArea.y=entity.WorldY+entity.solidArea.y;
+
+            target.solidArea.x=target.WorldX+target.solidArea.x;
+            target.solidArea.y=target.WorldY+target.solidArea.y;
+
+            switch (entity.direction)
+            {
+                case "up":
+                    entity.solidArea.y-=entity.speed;
+                    if (entity.solidArea.intersects(target.solidArea)) {
+                        entity.isCollision = true;
+                    }
+                    break;
+                case "down":
+                    entity.solidArea.y+=entity.speed;
+                    if (entity.solidArea.intersects(target.solidArea)) {
+                        entity.isCollision = true;
+                    }
+                    break;
+                case "left":
+                    entity.solidArea.x-=entity.speed;
+                    if (entity.solidArea.intersects(target.solidArea)) {
+                        entity.isCollision = true;
+                    }
+                    break;
+                case "right":
+                    entity.solidArea.x+=entity.speed;
+                    if (entity.solidArea.intersects(target.solidArea)) {
+                        entity.isCollision = true;
+                    }
+                    break;
+            }
+        }
     }
     public void check_interaction_w_player(Entity entity)
     {
