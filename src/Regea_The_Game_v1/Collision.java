@@ -52,6 +52,10 @@ public class Collision {
                 break;
             case "left":
                 entity_Tile_A=(entity_A-entity.speed)/game.Tile_Size();
+                if(entity_Tile_A<0) {
+                    entity.isCollision = true;
+                    return;
+                }
                 tile_num1=game.assets.map_matrix[game.wnd.currentMap][entity_Tile_C][entity_Tile_A];
                 tile_num2=game.assets.map_matrix[game.wnd.currentMap][entity_Tile_D][entity_Tile_A];
                 if(game.assets.tile[tile_num1].collision==true || game.assets.tile[tile_num2].collision==true)
@@ -83,7 +87,7 @@ public class Collision {
         entity_Tile_D=(entity_D+entity.airSpeed)/game.Tile_Size();
         tile_num1=game.assets.map_matrix[game.wnd.currentMap][entity_Tile_D][entity_Tile_A];
         tile_num2=game.assets.map_matrix[game.wnd.currentMap][entity_Tile_D][entity_Tile_B];
-        if(game.assets.tile[tile_num1].collision==true || game.assets.tile[tile_num2].collision==true)
+        if(game.assets.tile[tile_num1].collision || game.assets.tile[tile_num2].collision)
         {
             entity.isCollision=true;
         }
@@ -197,7 +201,7 @@ public class Collision {
                         if (entity.solidArea.intersects(game.obj_list[game.wnd.currentMap][i].solidArea)) {
                             if (game.obj_list[game.wnd.currentMap][i].collision == true)
                                 entity.isCollision = true;
-                            if (isPlayer=true)
+                            if (isPlayer==true)
                             {
                                 ret=i;
                             }
@@ -345,4 +349,8 @@ public class Collision {
         game.player1.solidArea.x=game.player1.solidArea_defaultX;
         game.player1.solidArea.y=game.player1.solidArea_defaultY;
     }
+    /*public boolean checkEntityInEntity(Entity e1,Entity)
+    {
+
+    }*/
 }

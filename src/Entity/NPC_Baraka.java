@@ -16,10 +16,12 @@ public class NPC_Baraka extends Entity {
         name="Baraka";
         direction="down";
         speed=0;
-        solidArea.x=0;
-        solidArea.y=0;
-        solidArea.height=48;
-        solidArea.width=48;
+        solidArea.x=16;
+        solidArea.y=15;
+        solidArea.height=40;
+        solidArea.width=27;
+        solidArea_defaultX=solidArea.x;
+        solidArea_defaultY=solidArea.y;
         getNPCImage();
     }
     public void getNPCImage()

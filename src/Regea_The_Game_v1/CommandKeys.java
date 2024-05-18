@@ -38,22 +38,77 @@ public class CommandKeys implements KeyListener {
             if (code == KeyEvent.VK_E) {
                 e_command = true;
             }
-            if(code==KeyEvent.VK_ENTER)
-            {
-                enter_command=true;
-            }
             if (code == KeyEvent.VK_ESCAPE || code == KeyEvent.VK_P) {
                 game.gameStatus = game.pauseStatus;
             }
         }
         else if(game.gameStatus==game.pauseStatus)
         {
+            if(game.previousStatus==game.fightStatus)
+            {
+                if (code == KeyEvent.VK_W || code==KeyEvent.VK_UP) {
+                    if(game.ui.commandLine!=0)
+                        game.ui.commandLine--;
+                    else game.ui.commandLine=2;
+                }
+                if (code == KeyEvent.VK_S || code==KeyEvent.VK_DOWN) {
+                    if(game.ui.commandLine!=2)
+                        game.ui.commandLine++;
+                    else game.ui.commandLine=0;
+                }
+                if(code== KeyEvent.VK_ENTER || code== KeyEvent.VK_RIGHT)
+                {
+                    switch (game.ui.commandLine)
+                    {
+                        case 0:
+                            game.gameStatus= game.fightStatus;
+                            break;
+                        case 1:
+
+                            break;
+                        case 2:
+                            game.set3on4Gameplay(game.player1.savedTileX,game.player1.savedTileY);
+                            game.ui.commandLine=0;
+                            break;
+                    }
+                }
+            }
+            if(game.previousStatus==game.playStatus)
+            {
+                if (code == KeyEvent.VK_W || code==KeyEvent.VK_UP) {
+                    if(game.ui.commandLine!=0)
+                        game.ui.commandLine--;
+                    else game.ui.commandLine=2;
+                }
+                if (code == KeyEvent.VK_S || code==KeyEvent.VK_DOWN) {
+                    if(game.ui.commandLine!=2)
+                        game.ui.commandLine++;
+                    else game.ui.commandLine=0;
+                }
+                if(code== KeyEvent.VK_ENTER || code== KeyEvent.VK_RIGHT)
+                {
+                    switch (game.ui.commandLine)
+                    {
+                        case 0:
+                            game.gameStatus= game.playStatus;
+                            break;
+                        case 1:
+                            //fct de save
+                            break;
+                        case 2:
+                            game.gameStatus=game.titleScreen_Status;
+                            game.ui.commandLine=0;
+                            break;
+                    }
+                }
+            }
             if (code == KeyEvent.VK_ESCAPE || code == KeyEvent.VK_P) {
                 if(game.previousStatus== game.playStatus)
                     game.gameStatus = game.playStatus;
                 if(game.previousStatus==game.fightStatus)
                     game.gameStatus= game.fightStatus;
             }
+
         }
         else if(game.gameStatus==game.titleScreen_Status)
         {
@@ -72,15 +127,17 @@ public class CommandKeys implements KeyListener {
                 switch (game.ui.commandLine)
                 {
                     case 0:
-                        game.gameStatus= game.playStatus;
+                        game.set3on4Gameplay(36,12);
                         break;
                     case 1:
                         if(game.ui.titleScreenState==0)
                             game.ui.titleScreenState=2;
+                        game.ui.commandLine=0;
                         break;
                     case 2:
                         if(game.ui.titleScreenState==0)
                             game.ui.titleScreenState=1;
+                        game.ui.commandLine=0;
                         break;
                     case 3:
                         game.StopGame();
@@ -104,6 +161,10 @@ public class CommandKeys implements KeyListener {
             }
             if(code == KeyEvent.VK_SPACE) {
                 jump=true;
+            }
+            if(code==KeyEvent.VK_ENTER)
+            {
+                enter_command=true;
             }
             if (code == KeyEvent.VK_ESCAPE || code == KeyEvent.VK_P) {
                 game.gameStatus = game.pauseStatus;
@@ -132,4 +193,5 @@ public class CommandKeys implements KeyListener {
             enter_command=false;
         }
     }
+
 }

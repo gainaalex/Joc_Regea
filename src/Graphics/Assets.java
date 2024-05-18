@@ -18,6 +18,7 @@ public class Assets
     Game game;
     public Tile[] tile;
     public BufferedImage[] o_images;
+    public BufferedImage[][] background_images;
     public int[][][] map_matrix;
 
     //for animated tiles
@@ -30,38 +31,50 @@ public class Assets
         this.game=game;
         map_matrix=new int[game.wnd.maxMaps][][];
         o_images=new BufferedImage[5];
+        background_images=new BufferedImage[4][];
         tile=new Tile[101];
         GetTiles();
-        LoadMap("/Graphics/Maps/World_Final_v2.txt",0);
-        LoadMap("/Graphics/Maps/fight1_map.txt",1);
+        LoadMap("/Graphics/Maps/World_Final_v2.txt",0,game.wnd.maxWorldRow,game.wnd.maxWorldCol);
+        LoadMap("/Graphics/Maps/fight1_map.txt",1,15,21);
+        LoadMap("/Graphics/Maps/fight2_map.txt",2,15,21);
+        LoadMap("/Graphics/Maps/fight3_map.txt",3,15,21);
         try{
             o_images[0]= ImageIO.read(getClass().getResourceAsStream("/res/Tiles/Tree/big tree/copac_2.png"));
             o_images[0]=TileScaler.scaleImage(o_images[0],2*game.Tile_Size(),3*game.Tile_Size());
             o_images[1]=ImageIO.read(getClass().getResourceAsStream("/res/Ferma/wheat_obj.png"));
             o_images[1]=TileScaler.scaleImage(o_images[1],game.Tile_Size()+16,game.Tile_Size()+8);
+            background_images[1]=new BufferedImage[1];
+            background_images[2]=new BufferedImage[1];
+            background_images[3]=new BufferedImage[1];
+            background_images[1][0]=ImageIO.read(getClass().getResourceAsStream("/res/Fights_resource/fight1/idei/idee 5/final.png"));
+            background_images[1][0]=TileScaler.scaleImage(background_images[1][0],game.wnd.GetWndWidth(),game.wnd.GetWndHeight());
+            background_images[2][0]=ImageIO.read(getClass().getResourceAsStream("/res/Fights_resource/fight1/idei/idee 5/final.png"));
+            background_images[2][0]=TileScaler.scaleImage(background_images[2][0],game.wnd.GetWndWidth(),game.wnd.GetWndHeight());
+            background_images[3][0]=ImageIO.read(getClass().getResourceAsStream("/res/Fights_resource/fight1/idei/idee 5/final.png"));
+            background_images[3][0]=TileScaler.scaleImage(background_images[3][0],game.wnd.GetWndWidth(),game.wnd.GetWndHeight());
         }catch (IOException e)
         {
             e.printStackTrace();
         }
     }
-    public void LoadMap(String path, int current_map)
+    public void LoadMap(String path, int current_map,int maxrow, int maxcol)
     {
-        map_matrix[current_map]=new int[game.wnd.maxWorldRow][game.wnd.maxWorldCol];
+        map_matrix[current_map]=new int[maxrow][maxcol];
         try{
             InputStream input=getClass().getResourceAsStream(path);
             BufferedReader br=new BufferedReader(new InputStreamReader(input));
 
             int col=0,row=0;
-            while(col<game.wnd.maxWorldCol && row<game.wnd.maxWorldRow)
+            while(col<maxcol && row<maxrow)
             {
                 String line= br.readLine();
-                while(col<game.wnd.maxWorldCol) {
+                while(col<maxcol) {
                     String[] num = line.split(" ");
                     int n = Integer.parseInt(num[col]);
                     map_matrix[current_map][row][col]=n;
                     col++;
                 }
-                if (col== game.wnd.maxWorldCol)
+                if (col== maxcol)
                 {
                     col=0;
                     row++;
@@ -101,6 +114,10 @@ public class Assets
         setup(16,"/res/Tiles/Grass/grass_tile_6.png",false);
         setup(17,"/res/Tiles/Grass/grass_tile_7.png",false);
         setup(18,"/res/Tiles/Grass/grass_tile_8.png",false);
+        setup(25,"/res/Tiles/Grass/grass_tile_9.png",true);
+        setup(26,"/res/Tiles/Grass/grass_tile_10.png",true);
+
+
         //cobblestone
         setup(19,"/res/Tiles/Stone/Ground&Stone/Stone/cobble.png",false);
         //tree
@@ -204,6 +221,28 @@ public class Assets
             }
             WorldCol++;
             if (WorldCol== game.wnd.maxWorldCol)
+            {
+                WorldCol=0;
+                WorldRow++;
+            }
+        }
+    }
+
+    public void Draw_In_Fights(Graphics g)
+    {
+        g.drawImage(background_images[game.wnd.currentMap][0],0,0,null);
+        int WorldCol=0,WorldRow=0;
+        while(WorldCol< map_matrix[game.wnd.currentMap][0].length && WorldRow<map_matrix[game.wnd.currentMap].length)
+        {
+            int current_tile=map_matrix[game.wnd.currentMap][WorldRow][WorldCol];
+            int WorldX=WorldCol* game.Tile_Size();
+            int WorldY=WorldRow* game.Tile_Size();
+            if(tile[current_tile].collision)
+                g.drawImage(tile[current_tile].image,WorldX,WorldY, null);
+
+                //g.drawString(""+WorldCol+" "+(WorldRow-1),screenX,screenY);
+            WorldCol++;
+            if (WorldCol== map_matrix[game.wnd.currentMap][0].length)
             {
                 WorldCol=0;
                 WorldRow++;

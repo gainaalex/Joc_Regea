@@ -51,8 +51,8 @@ public class Game implements Runnable
     {
         wnd = new GameWindow(title);
 
-        previousStatus=playStatus;
-        gameStatus=playStatus;
+        previousStatus=fightStatus;
+        gameStatus=titleScreen_Status;
 
         ui=new UI(this);
 
@@ -179,6 +179,12 @@ public class Game implements Runnable
         if(gameStatus==fightStatus)
         {
             player1.Update_InFights();
+            for (int i = 0; i < 10; i++) {
+                if (npc_list[wnd.currentMap][i] != null)
+                    npc_list[wnd.currentMap][i].Update();
+                if(bosses[wnd.currentMap][i]!=null)
+                    bosses[wnd.currentMap][i].Update();
+            }
         }
     }
 
@@ -204,16 +210,16 @@ public class Game implements Runnable
             ui.Draw(g);
         }
         else if(previousStatus==playStatus){
-            if(isSwitching==true)
+            /*if(isSwitching)
             {
                 wnd.currentMap=0;
                 player1.set_position(50,47);
                 isSwitching=false;
-            }
+            }*/
             assets.Draw(g);
 
             for (int i = 0; i < obj_list[wnd.currentMap].length; i++) {
-                if (obj_list[wnd.currentMap][i] != null && obj_list[wnd.currentMap][i].priority_over_player == false)
+                if (obj_list[wnd.currentMap][i] != null && !obj_list[wnd.currentMap][i].priority_over_player)
                     obj_list[wnd.currentMap][i].Draw(g, this);
             }
             for (int i = 0; i < npc_list[wnd.currentMap].length; i++) {
@@ -228,24 +234,29 @@ public class Game implements Runnable
             player1.Draw(g);
             assets.Draw_Over_player(g);
             for (int i = 0; i < obj_list[wnd.currentMap].length; i++) {
-                if (obj_list[wnd.currentMap][i] != null && obj_list[wnd.currentMap][i].priority_over_player == true)
+                if (obj_list[wnd.currentMap][i] != null && obj_list[wnd.currentMap][i].priority_over_player)
                     obj_list[wnd.currentMap][i].Draw(g, this);
             }
-
             ui.Draw(g);
         }
         else if(previousStatus==fightStatus)
         {
-            if(isSwitching==true)
+            /*if(isSwitching)
             {
                 wnd.currentMap=1;
                 player1.set_position(0,0);
+                player1.speed=3;
                 isSwitching=false;
+            }*/
+            assets.Draw_In_Fights(g);
+            for(int i=0;i<bosses[wnd.currentMap].length;i++)
+            {
+                if(bosses[wnd.currentMap][i]!=null)
+                    bosses[wnd.currentMap][i].Draw_In_Fights(g);
             }
-            assets.Draw(g);
-            player1.Draw(g);
+            player1.Draw_In_Fights(g);
         }
-
+        ui.Draw(g);
         bs.show();
         g.dispose();
     }
@@ -279,5 +290,35 @@ public class Game implements Runnable
     {
         sound.setFile(i);
         sound.play();
+    }
+
+    public void set3on4Gameplay(int x, int y)
+    {
+        wnd.currentMap=0;
+        gameStatus=playStatus;
+        previousStatus=playStatus;
+        player1.solidArea=player1.openWorld_solidArea;
+        player1.solidArea_defaultX=player1.solidArea.x;
+        player1.solidArea_defaultY=player1.solidArea.y;
+        player1.left=player1.scaleImagesEntity(player1.left,1,1);
+        player1.right=player1.scaleImagesEntity(player1.right,1,1);
+        player1.speed=7;
+        player1.set_position(x,y,"down");
+    }
+    public void setFightLevel(int level)
+    {
+        wnd.currentMap=level;
+        player1.savedTileX=player1.WorldX/Tile_Size();
+        player1.savedTileY=player1.WorldY/Tile_Size();
+        gameStatus=fightStatus;
+        previousStatus=fightStatus;
+        player1.speed=3;
+        player1.solidArea=player1.fight_solidArea;
+        player1.scaleSolidArea(2,2);
+        player1.solidArea_defaultX=player1.solidArea.x;
+        player1.solidArea_defaultY=player1.solidArea.y;
+        player1.left=player1.scaleImagesEntity(player1.left,2,2);
+        player1.right=player1.scaleImagesEntity(player1.right,2,2);
+        player1.set_position(0,9,"right");
     }
 }

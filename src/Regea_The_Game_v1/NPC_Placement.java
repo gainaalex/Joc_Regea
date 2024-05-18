@@ -13,6 +13,7 @@ public class NPC_Placement {
     public void setNPCs()
     {
         game.npc_list[0][0]=new NPC_Baraka(game);
+        game.npc_list[0][0].currentLife=10;
         game.npc_list[0][0].WorldX=game.Tile_Size()*39;
         game.npc_list[0][0].WorldY=game.Tile_Size()*12;
 
@@ -26,7 +27,7 @@ public class NPC_Placement {
 
         //bosses
         game.bosses[1][0]=new NPC_Baraka_Fight(game);
-        game.bosses[1][0].WorldX=56*game.Tile_Size();
-        game.bosses[1][0].WorldY=48*game.Tile_Size();
+        game.bosses[1][0].WorldX=15*game.Tile_Size();
+        game.bosses[1][0].WorldY=5*game.Tile_Size();
     }
 }

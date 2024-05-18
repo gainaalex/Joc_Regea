@@ -15,33 +15,56 @@ import java.util.Objects;
 
 public class Player extends Entity{
     private CommandKeys keyboard_command;
+    public Rectangle openWorld_solidArea;
+    public Rectangle fight_solidArea;
     public final int screenX;
     public final int screenY;
+    public int savedTileX, savedTileY;
     public Player(Game g, CommandKeys Ck)
     {
         super(g);
         name="Player";
-        solidArea=new Rectangle(16,32,12,10);
+        maxHealth=100;
+        currentLife=maxHealth;
+        //jocul in 3/4
+        openWorld_solidArea=new Rectangle(16,32,20,10);
+
+        //jocul in combat mode
+        fight_solidArea=new Rectangle(14,0,20,47);
+
         keyboard_command=Ck;
         screenX=(game.GetWndWidth()/2)-(game.wnd.Tile_Size/2);
         screenY=(game.GetWndHeight()/2)-(game.wnd.Tile_Size/2);
 
-        solidArea_defaultX=solidArea.x;
-        solidArea_defaultY=solidArea.y;
+        //solidArea_defaultX=solidArea.x;
+        //solidArea_defaultY=solidArea.y;
 
-        this.set_position(55,55);
+        //attack Area
+        attackArea.x=0;
+        attackArea.y=0;
+        attackArea.width=30;
+        attackArea.height=32;
+
+        //this.set_position(55,55);
         this.getPlayerImage();
         this.getAttackAnimations();
+        //direction="right";
+        /*left=scaleImagesEntity(left,2,2);
+        right=scaleImagesEntity(right,2,2);*/
+        attackLeft=scaleImagesEntity(attackLeft,2,2);
+        attackRight=scaleImagesEntity(attackRight,2,2);
+
+        //scaleSolidArea(2,2);
+
     }
 
 
 
-    public void set_position(int x, int y)
+    public void set_position(int x, int y,String _direction)
     {
         WorldX=game.Tile_Size()*x;
         WorldY=game.Tile_Size()*y;
-        speed=7;
-        direction="down";
+        direction=_direction;
 
     }
 
@@ -96,49 +119,26 @@ public class Player extends Entity{
     public void getAttackAnimations()
     {
         attackLeft=new BufferedImage[6];
-        attackLeft[0]=setup("/res/Regea_Sprites/attack_left/tile008.png");
-        attackLeft[1]=setup("/res/Regea_Sprites/attack_left/tile009.png");
-        attackLeft[2]=setup("/res/Regea_Sprites/attack_left/tile010.png");
-        attackLeft[3]=setup("/res/Regea_Sprites/attack_left/tile011.png");
-        attackLeft[4]=setup("/res/Regea_Sprites/attack_left/tile012.png");
-        attackLeft[5]=setup("/res/Regea_Sprites/attack_left/tile013.png");
+        attackLeft[0]=setup("/res/Regea_Sprites/new_attack_left/tile008.png");
+        attackLeft[1]=setup("/res/Regea_Sprites/new_attack_left/tile009.png");
+        attackLeft[2]=setup("/res/Regea_Sprites/new_attack_left/tile010.png");
+        attackLeft[3]=setup("/res/Regea_Sprites/new_attack_left/tile011.png");
+        attackLeft[4]=setup("/res/Regea_Sprites/new_attack_left/tile012.png");
+        attackLeft[5]=setup("/res/Regea_Sprites/new_attack_left/tile013.png");
 
         attackRight=new BufferedImage[6];
-        attackRight[0]=setup("/res/Regea_Sprites/attack_right/tile024.png");
-        attackRight[1]=setup("/res/Regea_Sprites/attack_right/tile025.png");
-        attackRight[2]=setup("/res/Regea_Sprites/attack_right/tile026.png");
-        attackRight[3]=setup("/res/Regea_Sprites/attack_right/tile027.png");
-        attackRight[4]=setup("/res/Regea_Sprites/attack_right/tile028.png");
-        attackRight[5]=setup("/res/Regea_Sprites/attack_right/tile029.png");
+        attackRight[0]=setup("/res/Regea_Sprites/new_attack_right/tile024.png");
+        attackRight[1]=setup("/res/Regea_Sprites/new_attack_right/tile025.png");
+        attackRight[2]=setup("/res/Regea_Sprites/new_attack_right/tile026.png");
+        attackRight[3]=setup("/res/Regea_Sprites/new_attack_right/tile027.png");
+        attackRight[4]=setup("/res/Regea_Sprites/new_attack_right/tile028.png");
+        attackRight[5]=setup("/res/Regea_Sprites/new_attack_right/tile029.png");
 
-        attackLeft=scaleImagesEntity(attackLeft,2,1);
-        attackRight=scaleImagesEntity(attackRight,2,1);
+
     }
 
     public void Update()
     {
-        int npc_index=game.collision.checkEntity(this,game.bosses);
-        contactBoss(npc_index);
-        if(invincible)
-        {
-            if(invincibleCounter==120)
-            {
-                invincible=false;
-                invincibleCounter=0;
-            }
-            invincibleCounter++;
-        }
-        if(keyboard_command.enter_command && !attacking)
-        {
-            attacking=true;
-            spriteNum=0;
-            sprite_counter=0;
-        }
-        if(attacking)
-        {
-            attackingAnim();
-        }
-        else {
             if (keyboard_command.left_command || keyboard_command.up_command
                     || keyboard_command.down_command || keyboard_command.right_command || keyboard_command.e_command) {
 
@@ -169,7 +169,7 @@ public class Player extends Entity{
 
                 int object_index = game.collision.checkObj(this, true);
                 pickItem(object_index);
-                npc_index = game.collision.checkEntity(this, game.npc_list);
+                int npc_index = game.collision.checkEntity(this, game.npc_list);
                 interactNPC(npc_index);
                 if (keyboard_command.left_command || keyboard_command.up_command
                         || keyboard_command.down_command || keyboard_command.right_command)
@@ -200,15 +200,40 @@ public class Player extends Entity{
             } else {
                 spriteNum = 0;
             }
-        }
+
         game.eventInterpretor.checkEvent();
     }
 
     private void attackingAnim() {
         sprite_counter++;
-        if(sprite_counter>15)
+        if(sprite_counter>9)
         {
             spriteNum++;
+            if(spriteNum==4)
+            {
+                int currentWorldX=WorldX;
+                int currentsolidAreaWidth=solidArea.width;
+                int currentsolidAreaHeigth=solidArea.height;
+
+                switch (direction)
+                {
+                    case "left":
+                        WorldX-=attackArea.width;
+                        break;
+                    case "right":
+                        WorldX+=attackArea.width;
+                        break;
+                }
+                solidArea.width=attackArea.width;
+                solidArea.height=attackArea.height;
+
+                int index=game.collision.checkEntity(this,game.bosses);
+                damageBosses(index);
+
+                WorldX=currentWorldX;
+                solidArea.width=currentsolidAreaWidth;
+                solidArea.height=currentsolidAreaHeigth;
+            }
             if(spriteNum>=5) {
                 spriteNum = 0;
                 attacking=false;
@@ -217,12 +242,23 @@ public class Player extends Entity{
         }
     }
 
+    private void damageBosses(int index) {
+        if(index!=-1)
+        {
+            if(!game.bosses[game.wnd.currentMap][index].invincible) {
+                game.bosses[game.wnd.currentMap][index].currentLife--;
+                game.bosses[game.wnd.currentMap][index].invincible = true;
+                System.out.println("boss life:"+game.bosses[game.wnd.currentMap][index].currentLife);
+            }
+        }
+    }
+
     public void interactNPC(int npc_index) {
         if(npc_index!=-1)
         {
             if(keyboard_command.e_command) {
                 if (npc_index == 0) {
-                    System.out.println("tatati");
+                    game.setFightLevel(1);
                 }
                 keyboard_command.e_command=false;
             }
@@ -233,10 +269,10 @@ public class Player extends Entity{
         if(npcIndex!=-1)
         {
             if(npcIndex==0) {
-                if(invincible==false)
+                if(!game.bosses[game.wnd.currentMap][npcIndex].invincible)
                 {
-                    System.out.println("sugi");
-                    invincible=true;
+                    //System.out.println("sugi");
+                    game.bosses[game.wnd.currentMap][npcIndex].invincible=true;
                 }
             }
         }
@@ -245,66 +281,85 @@ public class Player extends Entity{
 
     public void Update_InFights()
     {
-        if(keyboard_command.left_command || keyboard_command.right_command || keyboard_command.jump || inAir)
+        int npc_index=game.collision.checkEntity(this,game.bosses);
+        //contactBoss(npc_index);
+        if(invincible)
         {
-            if (keyboard_command.left_command) {
-                direction="left";
-
-                //   WorldX -= speed;
-            }
-            if (keyboard_command.right_command) {
-                direction="right";
-
-                //   WorldX += speed;
-            }
-            if(keyboard_command.jump) {
-                jump();
-            }
-            if(!keyboard_command.left_command && !keyboard_command.right_command && !keyboard_command.jump && !inAir)
-                return;
-            if(!inAir)
+            if(invincibleCounter==120)
             {
-                isCollision=false;
-                game.collision.CheckFloor(this);
-                if(!isCollision)
-                    inAir=true;
-
+                invincible=false;
+                invincibleCounter=0;
             }
-            if(inAir)
-            {
-                if(airSpeed>0)
-                {
-                    falling=true;
-                    airSpeed=fallSpeed;
-                }
-                if(!falling)
-                    airSpeed+=gravity;
-                WorldY+=airSpeed;
-
-                isCollision=false;
-                game.collision.CheckFloor(this);
-                if(isCollision)
-                {
-                    inAir=false;
-                    falling=false;
-                }
-
-            }
-            if(keyboard_command.left_command || keyboard_command.right_command)
-                moveX();
-
-            sprite_counter++;
-            if (sprite_counter > 10) {
-                if (spriteNum == 8)
-                    spriteNum = 0;
-                else
-                    spriteNum++;
-                sprite_counter = 0;
-            }
+            invincibleCounter++;
         }
-        else
+        if(keyboard_command.enter_command && !attacking && !airAttack)
         {
+            attacking=true;
             spriteNum=0;
+            sprite_counter=0;
+        }
+        if(attacking)
+        {
+            attackingAnim();
+            if(inAir)
+                airAttack=true;
+        }
+        else {
+            if (keyboard_command.left_command || keyboard_command.right_command || keyboard_command.jump || inAir) {
+                if (keyboard_command.left_command) {
+                    direction = "left";
+
+                    //   WorldX -= speed;
+                }
+                if (keyboard_command.right_command) {
+                    direction = "right";
+
+                    //   WorldX += speed;
+                }
+                if (keyboard_command.jump) {
+                    jump();
+                }
+                if (!keyboard_command.left_command && !keyboard_command.right_command && !keyboard_command.jump && !inAir)
+                    return;
+                if (!inAir) {
+                    isCollision = false;
+                    game.collision.CheckFloor(this);
+                    if (!isCollision)
+                        inAir = true;
+
+                }
+                if (inAir) {
+                    if (airSpeed > 0) {
+                        falling = true;
+                        airSpeed = fallSpeed;
+                    }
+                    if (!falling)
+                        airSpeed += gravity;
+                    WorldY += airSpeed;
+
+                    isCollision = false;
+                    game.collision.CheckFloor(this);
+                    if (isCollision) {
+                        inAir = false;
+                        falling = false;
+                        airAttack=false;
+                    }
+
+                }
+                if (keyboard_command.left_command || keyboard_command.right_command)
+                    moveX();
+
+                sprite_counter++;
+                if (sprite_counter > 10) {
+                    if (spriteNum == 8)
+                        spriteNum = 0;
+                    else
+                        spriteNum++;
+                    sprite_counter = 0;
+                }
+            } else {
+                spriteNum = 0;
+            }
         }
     }
 
@@ -324,12 +379,13 @@ public class Player extends Entity{
     private void moveX() {
         isCollision = false;
         game.collision.CheckSides(this);
-        int object_index = game.collision.checkObj(this, true);
-        int npc_index = game.collision.checkEntity(this, game.npc_list);
+        //int object_index = game.collision.checkObj(this, true);
+        int npc_index = game.collision.checkEntity(this, game.bosses);
         if (!isCollision) {
             switch (direction) {
                 case "left":
-                    WorldX -= speed;
+                    if(WorldX-speed>=0)
+                        WorldX -= speed;
                     break;
                 case "right":
                     WorldX += speed;
@@ -341,6 +397,8 @@ public class Player extends Entity{
     @Override
     public void Draw(Graphics g)
     {
+        int tempScreenX=screenX;
+        int tempScreenY=screenY;
         BufferedImage img=null;
         if(!attacking) {
             switch (direction) {
@@ -362,6 +420,7 @@ public class Player extends Entity{
             switch (direction)
             {
                 case "left":
+                    tempScreenX-=game.Tile_Size();
                     img=attackLeft[spriteNum];
                     break;
                 case "right":
@@ -369,7 +428,43 @@ public class Player extends Entity{
                     break;
             }
         }
-        g.drawImage(img,screenX,screenY,null);
+        g.drawImage(img,tempScreenX,tempScreenY,null);
+    }
+
+    public void Draw_In_Fights(Graphics g)
+    {
+        int tempWorldX=WorldX;
+        int tempWorldY=WorldY;
+        BufferedImage img=null;
+        if(!attacking) {
+            switch (direction) {
+                case "up":
+                    img=up[spriteNum];
+                    break;
+                case "down":
+                    img = down[spriteNum];
+                    break;
+                case "left":
+                    img=left[spriteNum];
+                    break;
+                case "right":
+                    img=right[spriteNum];
+                    break;
+            }
+        }
+        else {
+            switch (direction)
+            {
+                case "left":
+                    tempWorldX-=game.Tile_Size();
+                    img=attackLeft[spriteNum];
+                    break;
+                case "right":
+                    img=attackRight[spriteNum];
+                    break;
+            }
+        }
+        g.drawImage(img,tempWorldX,tempWorldY,null);
     }
 
     public void pickItem(int i) {
@@ -394,7 +489,7 @@ public class Player extends Entity{
                     game.sound.setFile(1);
                     game.sound.play();
                     speed+=10;
-                    game.obj_list[i]=null;
+                    game.obj_list[game.wnd.currentMap][i]=null;
                 }
             }
         }

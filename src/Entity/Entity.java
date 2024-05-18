@@ -29,7 +29,7 @@ public class Entity {
     public boolean isCollision=false;
 
     //stats
-    public int maxHealth,currentLife;
+    public int maxHealth,currentLife,lastSavedCurrentLife;
 
     //pt gravitatie
     public int airSpeed=0;
@@ -38,13 +38,16 @@ public class Entity {
     public int fallSpeed=5;
     public boolean inAir=false;
     public boolean falling=false;
+    public boolean airAttack=false;
 
     public int solidArea_defaultX,solidArea_defaultY;
 
     //for fights
+    public Rectangle attackArea=new Rectangle(0,0,0,0);
     public boolean attacking=false;
     public boolean invincible=false;
     public int invincibleCounter=0;
+    public int knockback;
     public Entity(Game g)
     {
         this.game=g;
@@ -57,6 +60,20 @@ public class Entity {
             image= ImageIO.read(getClass().getResourceAsStream(ImagePath));
             if (image.getWidth()!=game.Tile_Size() && image.getHeight()!=game.Tile_Size())
                 image= TileScaler.scaleImage(image,game.Tile_Size(), game.Tile_Size());
+        }catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+        return image;
+    }
+
+    public BufferedImage setupAttackAnimations(String ImagePath)
+    {
+        BufferedImage image =null;
+        try{
+            image= ImageIO.read(getClass().getResourceAsStream(ImagePath));
+            if (image.getWidth()!=2*game.Tile_Size() && image.getHeight()!=game.Tile_Size())
+                image= TileScaler.scaleImage(image,2*game.Tile_Size(), game.Tile_Size());
         }catch (IOException e)
         {
             e.printStackTrace();
@@ -78,11 +95,15 @@ public class Entity {
 
     public void scaleSolidArea(float xwidth, float yheight)
     {
-        solidArea.width=Math.round(solidArea.width*xwidth)-32;
+        solidArea.width=Math.round(solidArea.width*xwidth);
         solidArea.height=Math.round(solidArea.height*yheight);
     }
 
     public void Draw(Graphics g) {
+
+    }
+    public void Draw_In_Fights(Graphics g)
+    {
 
     }
     public void Update()
