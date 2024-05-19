@@ -13,6 +13,7 @@ import java.util.ArrayList;
 
 public class Game implements Runnable
 {
+    public static Game game;
     public GameWindow wnd;
     private boolean runState;
     private Thread  gameThread;
@@ -26,6 +27,8 @@ public class Game implements Runnable
     public int previousStatus;
     public UI ui;
 
+    //DATABASE
+    public DataBase dataDeBaza;
 
     public final int titleScreen_Status=0;
     public final int playStatus=1;
@@ -53,7 +56,7 @@ public class Game implements Runnable
     public Sound sound;
     //private Tile tile;
 
-    public Game(String title)
+    private Game(String title)
     {
         wnd = new GameWindow(title);
 
@@ -89,6 +92,27 @@ public class Game implements Runnable
         runState = false;
         assets=new Assets(this);
         player1=new Player(this,keyboard_command);
+
+        dataDeBaza=new DataBase();
+        dataDeBaza.createNewTable();
+        dataDeBaza.insert(17,10,player1.maxHealth);
+        StartGame();
+    }
+
+    public static synchronized Game InitiateGame()
+    {
+        try
+        {
+            if(game==null)
+            {
+                game=new Game("The Redemption");
+            }
+        }catch (Exception i)
+        {
+            i.printStackTrace();
+        }
+
+        return game;
     }
 
 

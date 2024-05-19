@@ -98,6 +98,11 @@ public class CommandKeys implements KeyListener {
                             break;
                         case 1:
                             //fct de save
+                            game.dataDeBaza.deleteAllRows();
+                            game.dataDeBaza.insert(game.player1.WorldX/game.Tile_Size(),
+                                    game.player1.WorldY/game.Tile_Size(),game.player1.currentLife);
+                            game.gameStatus=game.playStatus;
+                            game.ui.commandLine=0;
                             break;
                         case 2:
                             game.gameStatus=game.titleScreen_Status;
@@ -134,9 +139,8 @@ public class CommandKeys implements KeyListener {
                         game.set3on4Gameplay(17,10,game.player1.maxHealth);
                         break;
                     case 1:
-                        if(game.ui.titleScreenState==0)
-                            game.ui.titleScreenState=2;
-                        game.ui.commandLine=0;
+                        //fct de load
+                        game.set3on4Gameplay(game.dataDeBaza.getWorldTileX(),game.dataDeBaza.getWorldTileY(),game.dataDeBaza.getLife());
                         break;
                     case 2:
                         if(game.ui.titleScreenState==0)
