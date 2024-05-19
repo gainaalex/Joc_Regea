@@ -257,14 +257,14 @@ public class UI {
             int x = getCentredText(text);
             int y = 3 * game.Tile_Size();
             BufferedImage image = null;
-        /*try{
+        try{
             image=ImageIO.read(getClass().getResourceAsStream("/res/design meniu/new_background.jpg"));
             image= TileScaler.scaleImage(image,game.GetWndWidth(),game.GetWndHeight());
         }catch (IOException e)
         {
             e.printStackTrace();
         }
-        g.drawImage(image,0,0,null);*/
+        g.drawImage(image,0,0,null);
             g.setColor(Color.GRAY);
             g.drawString(text, x + 5, y + 5);
             g.setColor(Color.WHITE);

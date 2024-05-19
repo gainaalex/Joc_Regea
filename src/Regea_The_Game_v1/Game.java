@@ -306,11 +306,12 @@ public class Game implements Runnable
         sound.play();
     }
 
-    public void set3on4Gameplay(int x, int y)
+    public void set3on4Gameplay(int x, int y, int lifelevel)
     {
         wnd.currentMap=0;
         gameStatus=playStatus;
         previousStatus=playStatus;
+        player1.currentLife=lifelevel;
         //player1.lastSavedCurrentLife= player1.currentLife;
         player1.solidArea=player1.openWorld_solidArea;
         player1.solidArea_defaultX=player1.solidArea.x;

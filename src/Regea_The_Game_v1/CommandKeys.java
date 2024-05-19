@@ -67,7 +67,7 @@ public class CommandKeys implements KeyListener {
                             game.ui.pauseScreenState=1;
                             break;
                         case 2:
-                            game.set3on4Gameplay(game.player1.savedTileX,game.player1.savedTileY);
+                            game.set3on4Gameplay(game.player1.savedTileX,game.player1.savedTileY,game.player1.lastSavedCurrentLife);
                             game.ui.commandLine=0;
                             break;
                     }
@@ -131,7 +131,7 @@ public class CommandKeys implements KeyListener {
                 switch (game.ui.commandLine)
                 {
                     case 0:
-                        game.set3on4Gameplay(36,12);
+                        game.set3on4Gameplay(17,10,game.player1.maxHealth);
                         break;
                     case 1:
                         if(game.ui.titleScreenState==0)
@@ -179,7 +179,7 @@ public class CommandKeys implements KeyListener {
             if(code==KeyEvent.VK_ENTER)
             {
                 game.player1.lastSavedCurrentLife=game.player1.currentLife;
-                game.set3on4Gameplay(game.player1.savedTileX,game.player1.savedTileY);
+                game.set3on4Gameplay(game.player1.savedTileX,game.player1.savedTileY,game.player1.currentLife);
             }
         }
         else if(game.gameStatus==game.lvlFailedStatus)
@@ -202,7 +202,7 @@ public class CommandKeys implements KeyListener {
                         game.setFightLevel(game.wnd.currentMap);
                         break;
                     case 1:
-                        game.set3on4Gameplay(game.player1.savedTileX,game.player1.savedTileY);
+                        game.set3on4Gameplay(game.player1.savedTileX,game.player1.savedTileY,game.player1.lastSavedCurrentLife);
                         game.ui.commandLine=0;
                         break;
                 }

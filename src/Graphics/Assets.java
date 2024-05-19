@@ -217,7 +217,7 @@ public class Assets
             {
                 g.drawImage(tile[current_tile].image,screenX,screenY, null);
 
-                g.drawString(""+WorldCol+" "+(WorldRow-1),screenX,screenY);
+                //g.drawString(""+WorldCol+" "+(WorldRow-1),screenX,screenY);
             }
             WorldCol++;
             if (WorldCol== game.wnd.maxWorldCol)
@@ -239,8 +239,6 @@ public class Assets
             int WorldY=WorldRow* game.Tile_Size();
             if(tile[current_tile].collision)
                 g.drawImage(tile[current_tile].image,WorldX,WorldY, null);
-
-                //g.drawString(""+WorldCol+" "+(WorldRow-1),screenX,screenY);
             WorldCol++;
             if (WorldCol== map_matrix[game.wnd.currentMap][0].length)
             {
