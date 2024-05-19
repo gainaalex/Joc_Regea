@@ -48,6 +48,11 @@ public class Entity {
     public boolean invincible=false;
     public int invincibleCounter=0;
     public int knockback;
+    public int damage;
+
+    //ranged caracters
+    public Projectile projectile;
+
     public Entity(Game g)
     {
         this.game=g;

@@ -349,8 +349,4 @@ public class Collision {
         game.player1.solidArea.x=game.player1.solidArea_defaultX;
         game.player1.solidArea.y=game.player1.solidArea_defaultY;
     }
-    /*public boolean checkEntityInEntity(Entity e1,Entity)
-    {
-
-    }*/
 }

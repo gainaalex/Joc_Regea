@@ -64,13 +64,17 @@ public class CommandKeys implements KeyListener {
                             game.gameStatus= game.fightStatus;
                             break;
                         case 1:
-
+                            game.ui.pauseScreenState=1;
                             break;
                         case 2:
                             game.set3on4Gameplay(game.player1.savedTileX,game.player1.savedTileY);
                             game.ui.commandLine=0;
                             break;
                     }
+                }
+                if(code==KeyEvent.VK_LEFT && game.ui.pauseScreenState==1)
+                {
+                    game.ui.pauseScreenState=0;
                 }
             }
             if(game.previousStatus==game.playStatus)
@@ -168,6 +172,40 @@ public class CommandKeys implements KeyListener {
             }
             if (code == KeyEvent.VK_ESCAPE || code == KeyEvent.VK_P) {
                 game.gameStatus = game.pauseStatus;
+            }
+        }
+        else if(game.gameStatus==game.lvlCompletedStatus)
+        {
+            if(code==KeyEvent.VK_ENTER)
+            {
+                game.player1.lastSavedCurrentLife=game.player1.currentLife;
+                game.set3on4Gameplay(game.player1.savedTileX,game.player1.savedTileY);
+            }
+        }
+        else if(game.gameStatus==game.lvlFailedStatus)
+        {
+            if (code == KeyEvent.VK_W || code==KeyEvent.VK_UP) {
+                if(game.ui.commandLine!=0)
+                    game.ui.commandLine--;
+                else game.ui.commandLine=1;
+            }
+            if (code == KeyEvent.VK_S || code==KeyEvent.VK_DOWN) {
+                if(game.ui.commandLine!=1)
+                    game.ui.commandLine++;
+                else game.ui.commandLine=0;
+            }
+            if(code== KeyEvent.VK_ENTER)
+            {
+                switch (game.ui.commandLine)
+                {
+                    case 0:
+                        game.setFightLevel(game.wnd.currentMap);
+                        break;
+                    case 1:
+                        game.set3on4Gameplay(game.player1.savedTileX,game.player1.savedTileY);
+                        game.ui.commandLine=0;
+                        break;
+                }
             }
         }
     }

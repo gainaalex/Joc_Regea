@@ -12,20 +12,20 @@ import java.util.spi.AbstractResourceBundleProvider;
 public class NPC_Baraka_Fight extends Entity{
 
     public int actionCounter=0;
-    //public Player player;
     public NPC_Baraka_Fight(Game g) {
         super(g);
-        name="Baraka_Fight";
+        name="Baraka";
         direction="left";
         speed=1;
-        maxHealth=100;
+        damage=10;
+        maxHealth=10;
         currentLife=maxHealth;
         knockback=game.Tile_Size();
 
         solidArea.x=14;
         solidArea.y=0;
         solidArea.width=20;
-        solidArea.height=47;
+        solidArea.height=43;
         solidArea_defaultX=solidArea.x;
         solidArea_defaultY=solidArea.y;
 
@@ -309,10 +309,10 @@ public class NPC_Baraka_Fight extends Entity{
 
                 isCollision=false;
                 game.collision.check_interaction_w_player(this);
-                System.out.println(isCollision);
+                //System.out.println(isCollision);
                 if(isCollision)
                 {
-                    game.player1.currentLife--;
+                    game.player1.currentLife-=damage;
                     game.player1.invincible=true;
                     if(Objects.equals(direction, "left"))
                     {

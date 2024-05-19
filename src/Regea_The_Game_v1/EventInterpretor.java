@@ -43,9 +43,9 @@ public class EventInterpretor {
             canTriggerEvent=true;
         if(canTriggerEvent)
         {
-            if(hit(55,47,"any"))
+            if(hit(86,15,"any") && game.keyboard_command.e_command)
             {
-                sout(55,47,1);
+                game.setFightLevel(3);
             }
         }
     }

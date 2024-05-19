@@ -9,6 +9,7 @@ import Regea_The_Game_v1.UI.UI;
 
 import java.awt.*;
 import java.awt.image.BufferStrategy;
+import java.util.ArrayList;
 
 public class Game implements Runnable
 {
@@ -16,20 +17,24 @@ public class Game implements Runnable
     private boolean runState;
     private Thread  gameThread;
     private BufferStrategy bs;
-    private boolean isSwitching=true;
+    public int countDownFight=30;
+    private int freqDef=0;
 
     public Graphics g;
 
     public int gameStatus;
-
+    public int previousStatus;
     public UI ui;
+
 
     public final int titleScreen_Status=0;
     public final int playStatus=1;
     public final int pauseStatus=2;
     public final int dialogueStatus=3;
     public final int fightStatus=4;
-    public int previousStatus;
+    public final int lvlCompletedStatus=5;
+    public final int lvlFailedStatus=6;
+
 
 
     CommandKeys keyboard_command= new CommandKeys(this);
@@ -41,6 +46,7 @@ public class Game implements Runnable
     public EventInterpretor eventInterpretor;
     public Entity[][] npc_list;
     public Entity[][] bosses;
+    public ArrayList<Entity> projectileList=new ArrayList<Entity>();
     public NPC_Placement npcPlacement;
 
     public Sound background_music;
@@ -178,6 +184,27 @@ public class Game implements Runnable
         }
         if(gameStatus==fightStatus)
         {
+            if(wnd.currentMap==1 ||  wnd.currentMap==3)
+            {
+                freqDef++;
+                if(freqDef>120)
+                {
+                    freqDef=0;
+                    countDownFight--;
+                }
+                if(wnd.currentMap==1 && countDownFight==0)
+                    gameStatus=lvlCompletedStatus;
+                if(wnd.currentMap==3 && countDownFight==0)
+                    gameStatus=lvlFailedStatus;
+            }
+            if(wnd.currentMap!=1 && bosses[wnd.currentMap][0].currentLife<=0)
+            {
+                gameStatus=lvlCompletedStatus;
+            }
+            if(player1.currentLife<=0)
+            {
+                gameStatus=lvlFailedStatus;
+            }
             player1.Update_InFights();
             for (int i = 0; i < 10; i++) {
                 if (npc_list[wnd.currentMap][i] != null)
@@ -210,12 +237,6 @@ public class Game implements Runnable
             ui.Draw(g);
         }
         else if(previousStatus==playStatus){
-            /*if(isSwitching)
-            {
-                wnd.currentMap=0;
-                player1.set_position(50,47);
-                isSwitching=false;
-            }*/
             assets.Draw(g);
 
             for (int i = 0; i < obj_list[wnd.currentMap].length; i++) {
@@ -241,13 +262,6 @@ public class Game implements Runnable
         }
         else if(previousStatus==fightStatus)
         {
-            /*if(isSwitching)
-            {
-                wnd.currentMap=1;
-                player1.set_position(0,0);
-                player1.speed=3;
-                isSwitching=false;
-            }*/
             assets.Draw_In_Fights(g);
             for(int i=0;i<bosses[wnd.currentMap].length;i++)
             {
@@ -297,28 +311,42 @@ public class Game implements Runnable
         wnd.currentMap=0;
         gameStatus=playStatus;
         previousStatus=playStatus;
+        //player1.lastSavedCurrentLife= player1.currentLife;
         player1.solidArea=player1.openWorld_solidArea;
         player1.solidArea_defaultX=player1.solidArea.x;
         player1.solidArea_defaultY=player1.solidArea.y;
         player1.left=player1.scaleImagesEntity(player1.left,1,1);
         player1.right=player1.scaleImagesEntity(player1.right,1,1);
-        player1.speed=7;
+        //player1.scaleSolidArea(1,1);
+        player1.speed=5;
         player1.set_position(x,y,"down");
     }
     public void setFightLevel(int level)
     {
+        if(level==1 || level==3)
+        {
+            countDownFight=30;
+        }
+        player1.attacking=false;
+        npcPlacement.setNPCs();
         wnd.currentMap=level;
-        player1.savedTileX=player1.WorldX/Tile_Size();
-        player1.savedTileY=player1.WorldY/Tile_Size();
-        gameStatus=fightStatus;
-        previousStatus=fightStatus;
+        if(previousStatus==playStatus) {
+            player1.savedTileX = player1.WorldX / Tile_Size();
+            player1.savedTileY = player1.WorldY / Tile_Size();
+            if(level==3)
+                player1.savedTileY++;
+        }
+        player1.currentLife=player1.lastSavedCurrentLife;
         player1.speed=3;
         player1.solidArea=player1.fight_solidArea;
-        player1.scaleSolidArea(2,2);
+        //player1.scaleSolidArea(2,2);
         player1.solidArea_defaultX=player1.solidArea.x;
         player1.solidArea_defaultY=player1.solidArea.y;
         player1.left=player1.scaleImagesEntity(player1.left,2,2);
         player1.right=player1.scaleImagesEntity(player1.right,2,2);
         player1.set_position(0,9,"right");
+
+        gameStatus=fightStatus;
+        previousStatus=fightStatus;
     }
 }

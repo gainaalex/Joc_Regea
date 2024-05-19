@@ -48,10 +48,10 @@ public class Assets
             background_images[3]=new BufferedImage[1];
             background_images[1][0]=ImageIO.read(getClass().getResourceAsStream("/res/Fights_resource/fight1/idei/idee 5/final.png"));
             background_images[1][0]=TileScaler.scaleImage(background_images[1][0],game.wnd.GetWndWidth(),game.wnd.GetWndHeight());
-            background_images[2][0]=ImageIO.read(getClass().getResourceAsStream("/res/Fights_resource/fight1/idei/idee 5/final.png"));
-            background_images[2][0]=TileScaler.scaleImage(background_images[2][0],game.wnd.GetWndWidth(),game.wnd.GetWndHeight());
-            background_images[3][0]=ImageIO.read(getClass().getResourceAsStream("/res/Fights_resource/fight1/idei/idee 5/final.png"));
-            background_images[3][0]=TileScaler.scaleImage(background_images[3][0],game.wnd.GetWndWidth(),game.wnd.GetWndHeight());
+            background_images[2][0]=ImageIO.read(getClass().getResourceAsStream("/res/Fights_resource/fight2/idee 1/idee1.png"));
+            background_images[2][0]=TileScaler.scaleImage(background_images[2][0],game.wnd.GetWndWidth(), game.GetWndHeight());
+            background_images[3][0]=ImageIO.read(getClass().getResourceAsStream("/res/Fights_resource/fight3/idee 2/idee 2.png"));
+            background_images[3][0]=TileScaler.scaleImage(background_images[3][0],game.wnd.GetWndWidth(),game.wnd.GetWndHeight()-4* game.Tile_Size());
         }catch (IOException e)
         {
             e.printStackTrace();

@@ -24,14 +24,16 @@ public class Player extends Entity{
     {
         super(g);
         name="Player";
+        damage=12;
         maxHealth=100;
         currentLife=maxHealth;
+        lastSavedCurrentLife=currentLife;
         //jocul in 3/4
         openWorld_solidArea=new Rectangle(16,32,20,10);
 
         //jocul in combat mode
-        fight_solidArea=new Rectangle(14,0,20,47);
-
+        //fight_solidArea=new Rectangle(14,0,20,47);
+        fight_solidArea=new Rectangle(10,0,40,43*2);
         keyboard_command=Ck;
         screenX=(game.GetWndWidth()/2)-(game.wnd.Tile_Size/2);
         screenY=(game.GetWndHeight()/2)-(game.wnd.Tile_Size/2);
@@ -246,9 +248,9 @@ public class Player extends Entity{
         if(index!=-1)
         {
             if(!game.bosses[game.wnd.currentMap][index].invincible) {
-                game.bosses[game.wnd.currentMap][index].currentLife--;
+                game.bosses[game.wnd.currentMap][index].currentLife-=damage;
                 game.bosses[game.wnd.currentMap][index].invincible = true;
-                System.out.println("boss life:"+game.bosses[game.wnd.currentMap][index].currentLife);
+                //System.out.println("boss life:"+game.bosses[game.wnd.currentMap][index].currentLife);
             }
         }
     }
@@ -259,6 +261,9 @@ public class Player extends Entity{
             if(keyboard_command.e_command) {
                 if (npc_index == 0) {
                     game.setFightLevel(1);
+                }
+                if (npc_index == 3) {
+                    game.setFightLevel(2);
                 }
                 keyboard_command.e_command=false;
             }
@@ -397,10 +402,7 @@ public class Player extends Entity{
     @Override
     public void Draw(Graphics g)
     {
-        int tempScreenX=screenX;
-        int tempScreenY=screenY;
         BufferedImage img=null;
-        if(!attacking) {
             switch (direction) {
                 case "up":
                     img=up[spriteNum];
@@ -415,20 +417,7 @@ public class Player extends Entity{
                     img=right[spriteNum];
                     break;
             }
-        }
-        else {
-            switch (direction)
-            {
-                case "left":
-                    tempScreenX-=game.Tile_Size();
-                    img=attackLeft[spriteNum];
-                    break;
-                case "right":
-                    img=attackRight[spriteNum];
-                    break;
-            }
-        }
-        g.drawImage(img,tempScreenX,tempScreenY,null);
+        g.drawImage(img,screenX,screenY,null);
     }
 
     public void Draw_In_Fights(Graphics g)
