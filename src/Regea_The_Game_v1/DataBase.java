@@ -58,9 +58,9 @@ public class DataBase {
     }
 
     public void selectAll() {
-        String sql = "SELECT  x, y, life FROM INFOS";
+            String sql = "SELECT  x, y, life FROM INFOS";
 
-        try (Connection conn = this.connect();
+            try (Connection conn = this.connect();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
 

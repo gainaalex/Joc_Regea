@@ -95,6 +95,7 @@ public class Game implements Runnable
 
         dataDeBaza=new DataBase();
         dataDeBaza.createNewTable();
+        //dataDeBaza.deleteAllRows();
         dataDeBaza.insert(17,10,player1.maxHealth);
         StartGame();
     }

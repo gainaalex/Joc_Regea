@@ -12,7 +12,7 @@ public class NPC_Boloni extends Entity {
     public int actionCounter=0;
     public NPC_Boloni(Game g) {
         super(g);
-        name="Spanciu";
+        name="Boloni";
         direction="left";
         speed=1;
         damage=22;

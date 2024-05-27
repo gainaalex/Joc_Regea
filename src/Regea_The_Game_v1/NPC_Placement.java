@@ -2,7 +2,7 @@ package Regea_The_Game_v1;
 
 import Entity.*;
 
-public class NPC_Placement {
+public class NPC_Placement implements Entity_Factory {
     Game game;
     public NPC_Placement(Game g)
     {
@@ -10,7 +10,7 @@ public class NPC_Placement {
     }
     public void setNPCs()
     {
-        game.npc_list[0][0]=new NPC_Baraka(game);
+        game.npc_list[0][0]=CreateEntity(0,game);
         //game.npc_list[0][0].currentLife=10;
         game.npc_list[0][0].WorldX=game.Tile_Size()*39;
         game.npc_list[0][0].WorldY=game.Tile_Size()*12;
@@ -40,5 +40,28 @@ public class NPC_Placement {
         game.bosses[3][0]=new NPC_Boloni(game);
         game.bosses[3][0].WorldX=15*game.Tile_Size();
         game.bosses[3][0].WorldY=9*game.Tile_Size();
+    }
+
+    @Override
+    public void PlaceEntity(int x, int y) {
+
+    }
+
+    @Override
+    public Entity CreateEntity(int type, Game g) {
+        switch (type)
+        {
+            case 0:
+                return new NPC_Baraka(g);
+            case 1:
+                return new NPC_Cow(g);
+            case 2:
+                return new NPC_Baraka_Fight(g);
+            case 3:
+                return new NPC_Spanciu(g);
+            case 4:
+                return new NPC_Boloni(g);
+        }
+        return null;
     }
 }
